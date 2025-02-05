@@ -1,0 +1,65 @@
+/build
+# Gradle files
+.gradle/
+**/build/
+**/out/
+**/captures/
+**/intermediates/
+**/generated/
+
+# Local configuration
+local.properties
+**/gradle.properties
+
+# IntelliJ/Android Studio
+.idea/
+**/workspace.xml
+**/tasks.xml
+**/usage.statistics.xml
+**/dictionaries/
+**/captures/
+**/logs/
+**/artifacts/
+**/androidTest/
+**/test/
+
+# Dependency caches
+**/.gradle/
+**/caches/
+**/wrapper/dists/
+**/wrapper/gradle-wrapper.properties
+
+# APK and mapping files
+**/*.apk
+**/*.aab
+**/*.ap_
+
+# Keystore files (security-sensitive)
+**/*.keystore
+**/*.jks
+
+# Kotlin specific
+**/*.kotlin_metadata
+**/*.kotlin_module
+
+# JetBrains
+.idea/
+*.iml
+
+# Firebase and Google Services
+**/google-services.json
+**/app/google-services.json
+**/crashlytics.properties
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+
+# Miscellaneous
+*.log
+*.swp
+*.lock
+*.pyc
+.DS_Store
+Thumbs.db
