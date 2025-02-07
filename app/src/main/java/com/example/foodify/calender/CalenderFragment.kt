@@ -1,4 +1,4 @@
-package com.example.foodify.home
+package com.example.foodify.calender
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,19 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.foodify.R
-import com.example.foodify.databinding.FragmentHomeBinding
+import com.example.foodify.databinding.FragmentCalenderBinding
 
-
-class HomeFragment : Fragment() {
-    private lateinit var _binding: FragmentHomeBinding
+class CalenderFragment : Fragment() {
+    private lateinit var _binding: FragmentCalenderBinding
     private val binding get() = _binding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentCalenderBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
 

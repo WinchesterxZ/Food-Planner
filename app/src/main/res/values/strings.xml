@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">foodify</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_username">Username</string>
@@ -28,5 +27,9 @@
     <string name="passwords_do_not_match">Passwords do not match</string>
     <string name="email_already_exists">This email is already registered.</string>
     <string name="reset_password">Reset Password</string>
+    <string name="search_hint">Search ....</string>
+    <string name="category">Category</string>
+    <string name="area">Area</string>
+    <string name="ingredients">Ingredients</string>
 
 </resources>

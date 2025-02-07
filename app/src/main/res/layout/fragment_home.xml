@@ -4,21 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home.HomeFragment">
+    tools:context=".home.view.HomeFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/main">
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerRandomLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+            <include
+                android:id="@+id/mealHolderLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                layout="@layout/meal_item"
+                 />
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <include
             android:id="@+id/randomMealLayout"
             layout="@layout/meal_item"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="15dp"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
         <TextView
             android:id="@+id/categoriesText"
             android:layout_width="wrap_content"

@@ -5,4 +5,9 @@
     <color name="blue">#FF0000FF</color>
     <color name="red">#FFFF0000</color>
     <color name="lightGreen">#FFa5dc86</color>
+    <color name="main">#FFf5f5f5</color>
+    <color name="simmerDarkColor">#FFBFBBBB</color>
+    <color name="simmerLightColor">#FFDDDDDD</color>
+
+
 </resources>

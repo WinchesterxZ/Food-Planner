@@ -1,0 +1,168 @@
+package com.example.foodify.home.view
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import cn.pedant.SweetAlert.SweetAlertDialog
+import coil.load
+import com.example.foodify.adapter.CategoryAdapter
+import com.example.foodify.adapter.MealsAdapter
+import com.example.foodify.data.model.Category
+import com.example.foodify.data.model.MealPreview
+import com.example.foodify.databinding.FragmentHomeBinding
+import com.example.foodify.home.viewmodel.HomeViewModel
+import com.example.foodify.util.showErrorSnackBar
+import com.example.foodify.util.showProgressDialog
+import com.example.foodify.util.showSuccessSnackBar
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
+class HomeFragment : Fragment(),OnBookmarkClickListener {
+    private lateinit var _binding: FragmentHomeBinding
+    private val binding get() = _binding
+    private val viewModel: HomeViewModel by viewModel()
+    private lateinit var categoriesAdapter: CategoryAdapter
+    private lateinit var mealsAdapter: MealsAdapter
+    private lateinit var pDialog: SweetAlertDialog
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.categoriesRecyclerView.layoutManager =
+            LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+        binding.popularMealsRecyclerView.layoutManager = GridLayoutManager(binding.root.context, 2)
+        pDialog = showProgressDialog(binding.root.context)
+        viewModel.loadHomeData()
+        observeHomeData()
+
+
+    }
+
+    private fun observeHomeData() {
+        viewModel.mealState.observe(viewLifecycleOwner) { state ->
+            Log.d("a3a3a3a3", "observeHomeData: $state")
+            when (state) {
+                is MealState.Loading -> showLoading()
+                is MealState.Success -> {
+                    showCategories(state.categories)
+                    showMeals(state.meals)
+                    showRandomMeal(state.randomMeal)
+                }
+                is MealState.Message -> handleMessageState(state)
+                is MealState.Error -> showError(state)
+                else -> Unit
+            }
+        }
+    }
+
+    private fun handleMessageState(state: MealState.Message) {
+        when (state.action) {
+            MealState.Action.ADDED_TO_FAVORITES -> showSuccessSnackBar(requireView(), state.message)
+            MealState.Action.REMOVED_FROM_FAVORITES -> showSuccessSnackBar(
+                requireView(),
+                state.message
+            )
+        }
+        viewModel.resetState()
+    }
+
+    private fun showError(state: MealState.Error) {
+        pDialog.dismiss()
+        when (state.type) {
+            MealState.ErrorType.LoadError -> {
+                showErrorSnackBar(requireView(), state.message)
+            }
+
+            MealState.ErrorType.AddToFavoriteError -> showErrorSnackBar(
+                requireView(),
+                state.message
+            )
+
+            MealState.ErrorType.DeleteError -> showErrorSnackBar(requireView(), state.message)
+
+        }
+    }
+
+    private fun showCategories(categories: List<Category>) {
+        pDialog.dismiss()
+        categoriesAdapter = CategoryAdapter(categories) {
+        }
+        binding.categoriesRecyclerView.adapter = categoriesAdapter
+
+    }
+
+    private fun showMeals(meals: List<MealPreview>) {
+        pDialog.dismiss()
+        mealsAdapter = MealsAdapter(this@HomeFragment){id->
+            val action = HomeFragmentDirections.actionHomeFragment2ToMealDetailsFragment(id)
+            findNavController().navigate(action)
+        }
+        mealsAdapter.submitList(meals)
+        binding.popularMealsRecyclerView.adapter = mealsAdapter
+
+    }
+
+    private fun showLoading() {
+        binding.randomMealLayout.progressBar.visibility = View.VISIBLE
+        pDialog.show()
+
+    }
+
+    private fun showRandomMeal(meal: MealPreview) {
+        pDialog.dismiss()
+        binding.randomMealLayout.mealName.text = meal.strMeal
+        binding.randomMealLayout.mealImage.load(meal.strMealThumb) {
+            listener(
+                onSuccess = { _, _ ->
+                    run {
+                        binding.randomMealLayout.progressBar.visibility = View.GONE
+                        Log.d("a3a3a", "showRandomMeal: zzzzzzzz")
+                    }
+                },
+                onError = { _, _ -> binding.randomMealLayout.progressBar.visibility = View.GONE }
+            )
+        }
+        binding.randomMealLayout.bookmark.setOnClickListener {
+            viewModel.toggleFavButton(meal)
+            binding.randomMealLayout.bookmark.setImageResource(
+                if (meal.isFav) {
+                    com.example.foodify.R.drawable.ic_bookmark_fill
+                } else {
+                    com.example.foodify.R.drawable.ic_bookmark
+                }
+            )
+            viewModel.addMeal(meal)
+        }
+        binding.randomMealLayout.root.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragment2ToMealDetailsFragment(meal.idMeal)
+            findNavController().navigate(action)
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onBookmarkClick(meal: MealPreview) {
+        viewModel.toggleFavButton(meal)
+        if(meal.isFav){
+            viewModel.addMeal(meal)
+        }else{
+            viewModel.removeMeal(meal.idMeal)
+        }
+        mealsAdapter.notifyDataSetChanged()
+    }
+
+}

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.foodify.home.HomeFragment"
+        android:name="com.example.foodify.home.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -25,9 +25,9 @@
     </fragment>
     <fragment
         android:id="@+id/bookmarksFragment"
-        android:name="com.example.foodify.bookmarks.BookmarksFragment"
+        android:name="com.example.foodify.bookmarks.view.BookmarksFragment"
         android:label="fragment_bookmarks_fargment"
-        tools:layout="@layout/fragment_bookmarks_fargment" >
+        tools:layout="@layout/fragment_bookmarks" >
         <action
             android:id="@+id/action_bookmarksFragment2_to_mealDetailsFragment"
             app:destination="@id/mealDetailsFragment" />
@@ -39,7 +39,20 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/mealDetailsFragment"
-        android:name="com.example.foodify.mealDetails.MealDetailsFragment"
+        android:name="com.example.foodify.mealDetails.view.MealDetailsFragment"
         android:label="fragment_meal_details"
-        tools:layout="@layout/fragment_meal_details" />
+        tools:layout="@layout/fragment_meal_details">
+        <argument
+            android:name="mealId"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/calenderFragment"
+        android:name="com.example.foodify.calender.CalenderFragment"
+        android:label="fragment_calender"
+        tools:layout="@layout/fragment_calender" />
 </navigation>

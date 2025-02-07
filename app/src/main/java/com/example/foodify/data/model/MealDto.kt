@@ -25,14 +25,16 @@ data class MealDto(
     val strMeasure13: String?, val strMeasure14: String?, val strMeasure15: String?,
     val strMeasure16: String?, val strMeasure17: String?, val strMeasure18: String?,
     val strMeasure19: String?, val strMeasure20: String?,
-    val isFavorite: Boolean // Add the isFav field
+    val isFavorite: Boolean,
+    val userId: String?
 ) {
     // Mapping to MealPreview (Home & Bookmarks)
     fun toMealPreview() = MealPreview(
         idMeal = idMeal,
         strMeal = strMeal,
         strMealThumb = strMealThumb,
-        isFav = isFavorite // Pass the isFav value
+        isFav = isFavorite,
+        userId = userId
     )
 
     // Mapping to MealDetails (Details Screen)
@@ -89,6 +91,7 @@ data class MealDto(
             strMeasure19,
             strMeasure20
         ),
-        isFav = isFavorite // Pass the isFav value
+        isFav = isFavorite, // Pass the isFav value
+        userId = userId
     )
 }

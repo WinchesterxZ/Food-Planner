@@ -1,3 +1,5 @@
+import com.example.foodify.data.model.MealPreview
+
 // MealDetails (For Details Screen)
 data class MealDetails(
     val id: String,
@@ -10,5 +12,25 @@ data class MealDetails(
     val source: String?,
     val ingredients: List<String>,
     val measures: List<String>,
-    val isFav: Boolean
-)
+    var isFav: Boolean,
+    var userId: String?
+
+
+){
+    companion object {
+        val EMPTY = MealDetails(
+            id = "",
+            name = "",
+            category = "",
+            area = "",
+            instructions = "",
+            thumbnail = "",
+            youtube = "",
+            source = "",
+            ingredients = emptyList(),
+            measures = emptyList(),
+            isFav = false,
+            userId = ""
+        )
+    }
+}

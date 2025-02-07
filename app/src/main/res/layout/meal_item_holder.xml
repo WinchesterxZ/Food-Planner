@@ -5,21 +5,20 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mealItemLayout"
     android:elevation="9dp"
     app:cardCornerRadius="8dp"
     android:layout_margin="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/simmerDarkColor">
 
 
-        <ImageView
+        <View
             android:id="@+id/mealImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,38 +31,22 @@
             android:src="@drawable/ic_bookmark"
             app:layout_constraintEnd_toEndOf="@id/mealImage"
             app:layout_constraintTop_toTopOf="@id/mealImage"
-            android:background="@drawable/image_circular_background"
-            app:tint="@color/black"
+            android:background="@android:color/transparent"
+            app:tint="@color/simmerLightColor"
             android:layout_margin="5dp">
 
         </ImageButton>
-        <TextView
+        <View
             android:id="@+id/mealName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Lamb tomato and sweet spices"
             android:gravity="center"
-            android:background="#42000000"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:maxLines="2">
+            android:background="@color/simmerLightColor">
 
-        </TextView>
+        </View>
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone">
-
-        </ProgressBar>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
