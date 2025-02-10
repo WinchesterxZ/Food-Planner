@@ -1,0 +1,248 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 268435456 bytes. Error detail: G1 virtual space
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   This process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Zero Based Compressed Oops mode in which the Java heap is
+#     placed in the first 32GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3825), pid=22240, tid=19044
+#
+# JRE version:  (17.0.11) (build )
+# Java VM: OpenJDK 64-Bit Server VM (17.0.11+0--11852314, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: org.jetbrains.kotlin.cli.jvm.K2JVMCompiler @G:\Bootcamps\depi\Projects\FoodRecipe\app\build\20250207_4417785186352820189.compiler.options
+
+Host: Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz, 8 cores, 15G,  Windows 11 , 64 bit Build 22621 (10.0.22621.4391)
+Time: Fri Feb  7 06:15:44 2025 Egypt Standard Time elapsed time: 0.019318 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00000252d835c7f0):  JavaThread "Unknown thread" [_thread_in_vm, id=19044, stack(0x0000006a48100000,0x0000006a48200000)]
+
+Stack: [0x0000006a48100000,0x0000006a48200000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x687bb9]
+V  [jvm.dll+0x84142a]
+V  [jvm.dll+0x8430ae]
+V  [jvm.dll+0x843713]
+V  [jvm.dll+0x24a35f]
+V  [jvm.dll+0x684989]
+V  [jvm.dll+0x67923a]
+V  [jvm.dll+0x30af0b]
+V  [jvm.dll+0x3123b6]
+V  [jvm.dll+0x361dfe]
+V  [jvm.dll+0x36202f]
+V  [jvm.dll+0x2e0d38]
+V  [jvm.dll+0x2e1ca4]
+V  [jvm.dll+0x811f21]
+V  [jvm.dll+0x36fb68]
+V  [jvm.dll+0x7f0896]
+V  [jvm.dll+0x3f3d2f]
+V  [jvm.dll+0x3f58e1]
+C  [jli.dll+0x528f]
+C  [ucrtbase.dll+0x29333]
+C  [KERNEL32.DLL+0x1259d]
+C  [ntdll.dll+0x5af38]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x00007ffaf56cefd8, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x00000252da50b6e0 GCTaskThread "GC Thread#0" [stack: 0x0000006a48200000,0x0000006a48300000] [id=8608]
+  0x00000252da51c4b0 ConcurrentGCThread "G1 Main Marker" [stack: 0x0000006a48300000,0x0000006a48400000] [id=25748]
+  0x00000252da51ced0 ConcurrentGCThread "G1 Conc#0" [stack: 0x0000006a48400000,0x0000006a48500000] [id=16496]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffaf4e81907]
+
+VM state: not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00000252da49d740] Heap_lock - owner thread: 0x00000252d835c7f0
+
+Heap address: 0x0000000701800000, size: 4072 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
+
+CDS archive(s) mapped at: [0x0000000000000000-0x0000000000000000-0x0000000000000000), size 0, SharedBaseAddress: 0x0000000800000000, ArchiveRelocationMode: 1.
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0, Narrow klass range: 0x0
+
+GC Precious Log:
+<Empty>
+
+Heap:
+ garbage-first heap   total 0K, used 0K [0x0000000701800000, 0x0000000800000000)
+  region size 2048K, 0 young (0K), 0 survivors (0K)
+ Metaspace       used 0K, committed 0K, reserved 0K
+  class space    used 0K, committed 0K, reserved 0K
+
+Heap Regions: E=young(eden), S=young(survivor), O=old, HS=humongous(starts), HC=humongous(continues), CS=collection set, F=free, OA=open archive, CA=closed archive, TAMS=top-at-mark-start (previous, next)
+
+Card table byte_map: [0x00000252ed4a0000,0x00000252edca0000] _byte_map_base: 0x00000252e9c94000
+
+Marking Bits (Prev, Next): (CMBitMap*) 0x00000252da50bd00, (CMBitMap*) 0x00000252da50bd40
+ Prev Bits: [0x00000252ee4a0000, 0x00000252f2440000)
+ Next Bits: [0x00000252f2440000, 0x00000252f63e0000)
+
+GC Heap History (0 events):
+No events
+
+Dll operation events (1 events):
+Event: 0.011 Loaded shared library C:\Program Files\Android\Android Studio1\jbr\bin\java.dll
+
+Deoptimization events (0 events):
+No events
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+VM Operations (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff71aa20000 - 0x00007ff71aa2a000 	C:\Program Files\Android\Android Studio1\jbr\bin\java.exe
+0x00007ffb974f0000 - 0x00007ffb97707000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffb96ad0000 - 0x00007ffb96b94000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffb94810000 - 0x00007ffb94bca000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffb950c0000 - 0x00007ffb951d1000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffb84360000 - 0x00007ffb84377000 	C:\Program Files\Android\Android Studio1\jbr\bin\jli.dll
+0x00007ffb84440000 - 0x00007ffb8445b000 	C:\Program Files\Android\Android Studio1\jbr\bin\VCRUNTIME140.dll
+0x00007ffb95270000 - 0x00007ffb9541e000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffb947b0000 - 0x00007ffb947d6000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffb7e150000 - 0x00007ffb7e3e2000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.4541_none_2710d1c57384c085\COMCTL32.dll
+0x00007ffb96d80000 - 0x00007ffb96da9000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffb96f20000 - 0x00007ffb96fc7000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffb94fa0000 - 0x00007ffb950bb000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffb94c50000 - 0x00007ffb94cea000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffb96ba0000 - 0x00007ffb96bd1000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007ffb8f4d0000 - 0x00007ffb8f4dc000 	C:\Program Files\Android\Android Studio1\jbr\bin\vcruntime140_1.dll
+0x00007ffb69760000 - 0x00007ffb697ed000 	C:\Program Files\Android\Android Studio1\jbr\bin\msvcp140.dll
+0x00007ffaf4b90000 - 0x00007ffaf5813000 	C:\Program Files\Android\Android Studio1\jbr\bin\server\jvm.dll
+0x00007ffb95990000 - 0x00007ffb95a42000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffb958e0000 - 0x00007ffb95987000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffb947e0000 - 0x00007ffb94808000 	C:\WINDOWS\System32\bcrypt.dll
+0x00007ffb95f20000 - 0x00007ffb96034000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffb6c670000 - 0x00007ffb6c679000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffb94260000 - 0x00007ffb942ad000 	C:\WINDOWS\SYSTEM32\POWRPROF.dll
+0x00007ffb8b440000 - 0x00007ffb8b474000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffb968e0000 - 0x00007ffb96951000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffb84880000 - 0x00007ffb8488a000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffb94080000 - 0x00007ffb94093000 	C:\WINDOWS\SYSTEM32\UMPDC.dll
+0x00007ffb937b0000 - 0x00007ffb937c8000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ffb8f530000 - 0x00007ffb8f53a000 	C:\Program Files\Android\Android Studio1\jbr\bin\jimage.dll
+0x00007ffb91e70000 - 0x00007ffb920a2000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ffb95a60000 - 0x00007ffb95df1000 	C:\WINDOWS\System32\combase.dll
+0x00007ffb96be0000 - 0x00007ffb96cb7000 	C:\WINDOWS\System32\OLEAUT32.dll
+0x00007ffb7c2f0000 - 0x00007ffb7c322000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ffb94bd0000 - 0x00007ffb94c4b000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffb8ce30000 - 0x00007ffb8ce55000 	C:\Program Files\Android\Android Studio1\jbr\bin\java.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\Android\Android Studio1\jbr\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.4541_none_2710d1c57384c085;C:\Program Files\Android\Android Studio1\jbr\bin\server
+
+VM Arguments:
+java_command: org.jetbrains.kotlin.cli.jvm.K2JVMCompiler @G:\Bootcamps\depi\Projects\FoodRecipe\app\build\20250207_4417785186352820189.compiler.options
+java_class_path (initial): C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-compiler-embeddable\2.1.0\988bf980588bbbcfa1ba19c1ffd7aa869b335a31\kotlin-compiler-embeddable-2.1.0.jar;C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib\2.1.0\85f8b81009cda5890e54ba67d64b5e599c645020\kotlin-stdlib-2.1.0.jar;C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-script-runtime\2.1.0\5909da8c57b75a117714ab0e348c86101b7a3284\kotlin-script-runtime-2.1.0.jar;C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-reflect\1.6.10\1cbe9c92c12a94eea200d23c2bbaedaf3daf5132\kotlin-reflect-1.6.10.jar;C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-daemon-embeddable\2.1.0\420bae1908e4a353f5b56c3c850d24d86367b25d\kotlin-daemon-embeddable-2.1.0.jar;C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\org.jetbrains.intellij.deps\trove4j\1.0.20200330\3afb14d5f9ceb459d724e907a21145e8ff394f02\trove4j-1.0.20200330.jar;C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlinx\kotlinx-coroutines-core-jvm\1.6.4\2c997cd1c0ef33f3e751d3831929aeff1390cb30\kotlinx-coroutines-core-jvm-1.6.4.jar;C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\org.jetbrains\annotations\13.0\919f0dfe192fb4e063e7dacadee7f8bb9a2672a9\annotations-13.0.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 2097152                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 268435456                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 4269801472                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 2097152                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5839372                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122909434                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122909434                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 4269801472                             {manageable} {ergonomic}
+     bool UseCompressedClassPointers               = true                           {product lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk-17
+PATH=C:\Program Files (x86)\VMware\VMware Workstation\bin\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Users\Administrator\AppData\Local\Programs\Python\Python312\Scripts\;C:\Users\Administrator\AppData\Local\Programs\Python\Python312\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Users\Administrator\AppData\Local\Programs\Python\Launcher\;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\src\flutter\bin;H:\sdkAndroid\platform-tools\adb.exe;C:\Program Files\Git\bin;C:\Users\Administrator\AppData\Roaming\npm;C:\Users\Administrator\AppData\Local\Pub\Cache\bin;C:\adb;C:\Program Files\dotnet\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Cloudflare\Cloudflare WARP\;C:\Users\Administrator\AppData\Local\Programs\Python\Launcher\;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\src\flutter\bin;C:\Program Files\Git\bin;C:\Users\Administrator\AppData\Roaming\npm;C:\Users\Administrator\AppData\Local\Pub\Cache\bin;C:\Program Files\Java\jdk-17\bin;C:\Program Files\Java\jdk-17\bin;H:\sdk\platform-tools;;C:\Users\Administrator\AppData\Local\Programs\Ollama
+USERNAME=Administrator
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
+TMP=C:\Users\ADMINI~1\AppData\Local\Temp
+TEMP=C:\Users\ADMINI~1\AppData\Local\Temp
+
+
+
+Periodic native trim disabled
+
+JNI global refs:
+JNI global refs: 0, weak refs: 0
+
+JNI global refs memory usage: 0, weak refs: 0
+
+Process memory usage:
+Resident Set Size: 12316K (0% of 16671868K total physical memory with 1569424K free physical memory)
+
+OOME stack traces (most recent first):
+Classloader memory used:
+
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 11 , 64 bit Build 22621 (10.0.22621.4391)
+OS uptime: 4 days 18:57 hours
+Hyper-V role detected
+
+CPU: total 8 (initial active 8) (4 cores per cpu, 2 threads per core) family 6 model 142 stepping 10 microcode 0xe0, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, adx, fma, vzeroupper, clflush, clflushopt, hv
+Processor Information for all 8 processors :
+  Max Mhz: 1992, Current Mhz: 1792, Mhz Limit: 1792
+
+Memory: 4k page, system-wide physical 16281M (1532M free)
+TotalPageFile size 44484M (AvailPageFile size 182M)
+current process WorkingSet (physical memory assigned to process): 12M, peak: 12M
+current process commit charge ("private bytes"): 60M, peak: 316M
+
+vm_info: OpenJDK 64-Bit Server VM (17.0.11+0--11852314) for windows-amd64 JRE (17.0.11+0--11852314), built on May 16 2024 21:29:20 by "androidbuild" with MS VC++ 16.10 / 16.11 (VS2019)
+
+END.
