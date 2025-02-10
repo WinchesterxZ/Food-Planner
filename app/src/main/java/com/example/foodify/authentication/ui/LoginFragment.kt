@@ -14,6 +14,7 @@ import com.example.foodify.R
 import com.example.foodify.authentication.viewmodel.LoginViewModel
 import com.example.foodify.data.model.Result
 import com.example.foodify.databinding.FragmentLoginBinding
+import com.example.foodify.di.authModule
 import com.example.foodify.util.showErrorSnackBar
 import com.example.foodify.util.showProgressDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,6 +30,8 @@ class LoginFragment : Fragment() {
         super.onCreate(savedInstanceState)
         if(viewModel.isUserLoggedIn()){
             goToMainActivity(true)
+        }else{
+            viewModel.saveGuestMode(false)
         }
         credentialManager = CredentialManager.create(requireContext())
     }
@@ -53,6 +56,7 @@ class LoginFragment : Fragment() {
         }
         binding.signInAsGuestButton.setOnClickListener {
             goToMainActivity(true)
+            viewModel.saveGuestMode(true)
         }
         observeLoginState()
 

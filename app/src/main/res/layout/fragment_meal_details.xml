@@ -1,15 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".mealDetails.view.MealDetailsFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/meadImage"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_launcher_background">
+    </ImageView>
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/mealName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/meadImage"
+        app:layout_constraintStart_toStartOf="@id/meadImage"
+        tools:text="Lamb tomato and sweet spices"
+        android:gravity="center"
+        android:background="#42000000"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:maxLines="2">
 
-</FrameLayout>
+    </TextView>
+
+    <ImageView
+        android:id="@+id/navBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/image_circular_background"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="@id/meadImage"
+        app:layout_constraintTop_toTopOf="@id/meadImage"
+        app:layout_constraintEnd_toEndOf="@id/meadImage"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_margin="5dp"
+        android:src="@drawable/baseline_arrow_back_24" />
+    <ImageView
+        android:id="@+id/bookmarkIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/image_circular_background"
+        android:scaleType="centerInside"
+        app:layout_constraintTop_toTopOf="@id/meadImage"
+        app:layout_constraintEnd_toEndOf="@id/meadImage"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_bookmark" />
+    <ImageView
+        android:id="@+id/calenderIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/image_circular_background"
+        android:scaleType="centerInside"
+        app:layout_constraintTop_toTopOf="@id/meadImage"
+        app:layout_constraintEnd_toStartOf="@id/bookmarkIcon"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_calender" />
+
+    <ProgressBar
+        android:id="@+id/mealImageProgressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/meadImage"
+        app:layout_constraintEnd_toEndOf="@id/meadImage"
+        app:layout_constraintStart_toStartOf="@id/meadImage"
+        app:layout_constraintTop_toTopOf="@id/meadImage"
+        android:visibility="gone"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/meadImage"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".mealDetails.view.MealDetailsFragment">
+            <ImageView
+                android:id="@+id/countryIcon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/ic_language"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                >
+            </ImageView>
+            <TextView
+                android:id="@+id/areaName"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/countryIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                tools:text="Moroccan">
+            </TextView>
+            <ImageView
+                android:id="@+id/categoryIcon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/categoryName"
+                android:src="@drawable/ic_category"
+                android:layout_marginTop="10dp"
+
+                >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/categoryName"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                tools:text="Lamb" />
+
+            <TextView
+                android:id="@+id/ingredientTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/countryIcon"
+                app:layout_constraintTop_toBottomOf="@id/countryIcon"
+                android:layout_marginTop="5dp"
+                android:text="Ingredients">
+            </TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ingredientRecyclerview"
+                android:layout_width="wrap_content"
+                android:layout_height="220dp"
+                app:layout_constraintTop_toBottomOf="@id/ingredientTextView"
+                app:layout_constraintStart_toStartOf="@id/ingredientTextView"
+                tools:listitem="@layout/search_item">
+            </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/instructionsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/ingredientRecyclerview"
+                app:layout_constraintTop_toBottomOf="@id/ingredientRecyclerview"
+                android:layout_marginTop="10dp"
+                android:text="Instructions">
+            </TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/instructionsRecyclerview"
+                android:layout_width="0dp"
+                android:layout_height="130dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@id/instructionsTextView"
+                app:layout_constraintTop_toBottomOf="@id/instructionsTextView"
+                tools:listitem="@layout/instructions_item" />
+
+            <TextView
+                android:id="@+id/videoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/instructionsRecyclerview"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:text="Video Of Recipe">
+            </TextView>
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/mealVideo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintTop_toBottomOf="@id/videoTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="25dp"
+                android:layout_marginHorizontal="25dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -1,3 +1,4 @@
+import com.example.foodify.data.model.IngredientItem
 import com.example.foodify.data.model.MealPreview
 
 // MealDetails (For Details Screen)
@@ -6,14 +7,15 @@ data class MealDetails(
     val name: String,
     val category: String,
     val area: String,
-    val instructions: String,
+    val instructions: List<String>,
     val thumbnail: String,
     val youtube: String?,
     val source: String?,
-    val ingredients: List<String>,
-    val measures: List<String>,
+    val ingredients: List<IngredientItem>,
     var isFav: Boolean,
-    var userId: String?
+    var userId: String?,
+    var mealPlan:String?
+
 
 
 ){
@@ -23,14 +25,15 @@ data class MealDetails(
             name = "",
             category = "",
             area = "",
-            instructions = "",
+            instructions = emptyList(),
             thumbnail = "",
             youtube = "",
             source = "",
             ingredients = emptyList(),
-            measures = emptyList(),
             isFav = false,
-            userId = ""
+            userId = null,
+            mealPlan = null
+
         )
     }
 }

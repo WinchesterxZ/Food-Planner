@@ -82,8 +82,6 @@ dependencies {
     implementation(libs.koin.androidx.navigation)
     // Firebase dependencies
     implementation(platform(libs.firebase.bom))
-    //facebook sdk
-    implementation("com.facebook.android:facebook-android-sdk:18.0.1")
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-auth")
@@ -94,8 +92,11 @@ dependencies {
     // nice alert dialogs
     implementation("com.github.f0ris.sweetalert:library:1.6.2")
     implementation("com.github.Musfick:Snackify:0.1.5")
-
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.1")
+    implementation("kr.co.prnd:readmore-textview:1.0.0")
+    implementation("com.google.firebase:firebase-firestore-ktx")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(kotlin("reflect"))
 }

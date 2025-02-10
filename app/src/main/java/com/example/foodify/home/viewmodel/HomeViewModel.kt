@@ -22,6 +22,8 @@ class HomeViewModel(
     private val _mealState = MutableLiveData<MealState?>()
     val mealState: MutableLiveData<MealState?> = _mealState
 
+    private val _searchedMeals = MutableLiveData<List<MealPreview>>()
+    val searchedMeals: LiveData<List<MealPreview>> = _searchedMeals
 
     fun resetState() {
         _mealState.value = null
@@ -33,13 +35,14 @@ class HomeViewModel(
 
             try {
                 val userId = userRepository.getCurrentUser()?.uid
-
-                val favMealsDeferred = async { safeCall { mealRepository.getFavMealsByUserId(userId ?: "guest") } }
+                val planMealsDeferred = async { safeCall { mealRepository.getAllMealsWithDate(userId?:"") } }
+                val favMealsDeferred = async { safeCall { mealRepository.getFavMealsByUserId(userId ?: "") } }
                 val mealsDeferred = async { safeCall { mealRepository.getMealsByArea("Egyptian") } }
                 val randomMealDeferred = async { safeCall { mealRepository.getRandomMeal() } }
                 val categoriesDeferred = async { safeCall { mealRepository.getMealsCategory() } }
 
                 val favMeals = favMealsDeferred.await() ?: emptyList()
+                val planMeals = planMealsDeferred.await() ?: emptyList()
                 val meals = mealsDeferred.await() ?: emptyList()
                 val randomMeal = randomMealDeferred.await() ?: MealPreview.EMPTY
                 val categories = categoriesDeferred.await() ?: emptyList()
@@ -47,9 +50,15 @@ class HomeViewModel(
                 // Check if the API calls returned actual data
                 if (meals.isNotEmpty() || randomMeal.idMeal.isNotEmpty() || categories.isNotEmpty()) {
                     withContext(Dispatchers.Main) {
-                        meals.forEach { it.isFav = favMeals.any { fav -> fav.idMeal == it.idMeal } }
+                        meals.forEach { meal ->
+                            meal.isFav = favMeals.any { fav -> fav.idMeal == meal.idMeal }
+                            meal.mealPlan = planMeals.find { it.idMeal == meal.idMeal }?.mealPlan ?: ""
+                        }
                         randomMeal.isFav = favMeals.any { it.idMeal == randomMeal.idMeal }
+                        randomMeal.mealPlan = planMeals.find { it.idMeal == randomMeal.idMeal }?.mealPlan ?: ""
+
                         _mealState.postValue(MealState.Success(meals, randomMeal, categories))
+
                     }
                 } else {
                     withContext(Dispatchers.Main) {
@@ -74,6 +83,7 @@ class HomeViewModel(
             null // Return null so the app doesn’t break but logs the failure
         }
     }
+
 
 
 

@@ -15,6 +15,7 @@ class CategoryAdapter(private val categories:List<Category>,private val onItemCl
             binding.apply {
                 progressBar.visibility = View.VISIBLE
                 categoryName.text = category.strCategory
+
                 categoryImage.load(category.strCategoryThumb){
                     listener(
                         onSuccess ={_,_ -> progressBar.visibility = View.GONE},

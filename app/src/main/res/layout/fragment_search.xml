@@ -6,33 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".search.view.SearchFragment">
 
-    <!-- Search Bar -->
-    <AutoCompleteTextView
-        android:id="@+id/searchAutoCompleteTextView"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:hint="@string/search_hint"
-        android:padding="10dp"
-        android:completionHint="Search ...."
-        android:textColorHint="@color/black"
-        android:background="@drawable/edit_text_background"
-        android:layout_margin="25dp"
-        android:completionThreshold="1"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="10dp"
-        />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchAutoCompleteTextView"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintWidth_default="wrap"
         app:selectionRequired="true"
@@ -40,7 +22,7 @@
 
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/categories"
+            android:id="@+id/chipCategory"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,11 +38,10 @@
             />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/area"
+            android:id="@+id/chipArea"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:text="@string/area"
             app:chipBackgroundColor="@color/black"
             android:textAlignment="center"
@@ -68,11 +49,10 @@
             android:textSize="18sp" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/ingredient"
+            android:id="@+id/chipIngredient"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:text="@string/ingredients"
             app:chipBackgroundColor="@color/black"
             android:textAlignment="center"
@@ -88,6 +68,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chipGroup"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        tools:listitem="@layout/search_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.example.foodify.data.api
 
 import com.example.foodify.data.model.AreaResponse
 import com.example.foodify.data.model.CategoryResponse
+import com.example.foodify.data.model.IngredientResponse
 import com.example.foodify.data.model.MealDetailsResponse
 import com.example.foodify.data.model.MealPreview
 import retrofit2.Response
@@ -14,15 +15,22 @@ interface RetrofitService {
     @GET("categories.php")
     suspend fun getCategories(): Response<CategoryResponse>
     @GET("list.php?a=list")
-    suspend fun getArea(): Response<AreaResponse>
+    suspend fun getAreas(): Response<AreaResponse>
+    @GET("list.php?i=list")
+    suspend fun getIngredients(): Response<IngredientResponse>
     @GET("filter.php")
     suspend fun getMealsByCategory(@Query("c") category: String): Response<MealDetailsResponse>
     @GET("filter.php")
     suspend fun getMealsByArea(@Query("a") area: String): Response<MealDetailsResponse>
+    @GET("filter.php")
+    suspend fun getMealsByIngredient(@Query("i") ingredient: String): Response<MealDetailsResponse>
     @GET("search.php")
     suspend fun getMealByName(@Query("s") mealName: String): Response<MealDetailsResponse>
     @GET("lookup.php")
     suspend fun getMealById(@Query("i") mealId: String): Response<MealDetailsResponse>
+    @GET("search.php")
+    suspend fun searchMeals(@Query("s") query: String): Response<MealDetailsResponse>
+
 
 
 

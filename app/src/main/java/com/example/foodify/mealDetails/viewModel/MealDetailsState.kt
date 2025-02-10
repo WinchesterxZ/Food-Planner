@@ -25,11 +25,13 @@ sealed class MealDetailsState {
 
     // Enum to distinguish between different actions
     enum class Action {
-        ADDED_TO_FAVORITES, REMOVED_FROM_FAVORITES
+        ADDED_TO_FAVORITES, REMOVED_FROM_FAVORITES,  ADDED_TO_CALENDER, REMOVED_FROM_CALENDER
     }
     sealed class ErrorType {
         data object LoadError : ErrorType()
-        data object DeleteError : ErrorType()
+        data object DeleteFromFavoriteError : ErrorType()
         data object AddToFavoriteError : ErrorType()
+        data object  DeleteFromCalenderError : ErrorType()
+        data object  AddToCalenderError : ErrorType()
     }
 }

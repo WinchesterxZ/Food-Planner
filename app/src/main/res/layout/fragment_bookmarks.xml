@@ -6,6 +6,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".bookmarks.view.BookmarksFragment">
 
+    <ImageButton
+        android:id="@+id/sync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_sync"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="5dp"
+        >
+
+    </ImageButton>
+    <ImageButton
+        android:id="@+id/backup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_backup"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@id/sync"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="5dp"
+        >
+
+    </ImageButton>
+
     <include
         layout="@layout/empty_view"
         android:id="@+id/emptyView"
@@ -19,11 +44,10 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sync"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/meal_item"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager">
-
     </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

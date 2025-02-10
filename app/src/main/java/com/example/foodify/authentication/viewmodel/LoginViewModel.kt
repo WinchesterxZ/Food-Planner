@@ -39,6 +39,9 @@ class LoginViewModel(
         return authRepository.isUserLoggedIn()
     }
 
+    fun saveGuestMode(isGuest:Boolean){
+        authRepository.saveGuestMode(isGuest)
+    }
 
     fun logout() {
         authRepository.logout()

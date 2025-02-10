@@ -12,13 +12,13 @@
         tools:context=".authentication.ui.SignUpFragment">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:layout_constraintBottom_toTopOf="@id/imageGuideLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/login_logo" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameTextInputLayout"
@@ -196,7 +196,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/com_facebook_button_send_background_color_pressed"
+            android:backgroundTint="@color/blue"
             android:elevation="4dp"
             android:focusable="true"
             android:gravity="center"

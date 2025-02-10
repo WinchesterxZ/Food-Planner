@@ -13,13 +13,15 @@ interface MealDao {
     suspend fun insertMeal(meal: MealPreview):Long
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMeals(meals: List<MealPreview>):List<Long>
-    @Query("SELECT * FROM meals WHERE isFav = 1")
-    suspend fun getFavMeals(): List<MealPreview>
     @Query("SELECT * FROM meals WHERE isFav = 1 AND userId = :userId")
     suspend fun getFavMealsByUserId(userId: String): List<MealPreview>
     @Query("DELETE FROM meals WHERE idMeal = :id")
     suspend fun deleteMeal(id: String):Int
     @Query("SELECT * FROM meals WHERE idMeal = :id AND userId = :userId")
     suspend fun getMealById(id: String , userId: String): MealPreview?
+    @Query("SELECT * FROM meals WHERE userId = :userId And mealPlan = :date")
+    suspend fun getMealsByUserIdAndDate(userId: String , date: String): List<MealPreview>
+    @Query("SELECT * FROM meals WHERE userId = :userId AND mealPlan IS NOT NULL AND mealPlan != ''")
+    fun getMealsWithDate(userId: String): List<MealPreview>
 
 }

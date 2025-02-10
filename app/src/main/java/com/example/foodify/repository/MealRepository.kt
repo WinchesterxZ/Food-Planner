@@ -1,9 +1,12 @@
 package com.example.foodify.repository
 
 import MealDetails
+import android.util.Log
 import com.example.foodify.data.api.RetrofitService
 import com.example.foodify.data.db.MealDao
+import com.example.foodify.data.model.Area
 import com.example.foodify.data.model.Category
+import com.example.foodify.data.model.Ingredient
 import com.example.foodify.data.model.MealPreview
 
 class MealRepository(
@@ -13,13 +16,7 @@ class MealRepository(
     suspend fun getRandomMeal(): MealPreview{
         val response = retrofitService.getRandomMeal()
         if (response.isSuccessful){
-           return response.body()?.meals?.get(0)?.toMealPreview() ?: MealPreview(
-               idMeal = "",
-               strMeal = "",
-               strMealThumb = "",
-               isFav = false,
-               userId = ""
-           )
+           return response.body()?.meals?.get(0)?.toMealPreview() ?: MealPreview.EMPTY
         }else{
             throw Exception("Failed to fetch random meal")
         }
@@ -33,6 +30,45 @@ class MealRepository(
 
         }
     }
+    suspend fun searchMealByName(name: String): List<MealPreview> {
+        val response = retrofitService.getMealByName(name)
+        if (response.isSuccessful) {
+            return response.body()?.meals?.map { it.toMealPreview() } ?: emptyList()
+        } else {
+            throw Exception("Failed to fetch meals by name")
+        }
+    }
+    suspend fun getMealsArea(): List<Area> {
+        val response = retrofitService.getAreas()
+        Log.d("xxx", "getMealsArea: $response")
+        if (response.isSuccessful) {
+            Log.d("xxx", "getMealsArea: ${response.body()}")
+            Log.d("xxx", "getMealsArea: ${response.body()?.areas}")
+            return response.body()?.areas ?: emptyList()
+        } else {
+            throw Exception("Failed to fetch areas")
+
+        }
+    }
+    suspend fun getMealsIngredients(): List<Ingredient> {
+        val response = retrofitService.getIngredients()
+        if (response.isSuccessful) {
+            return response.body()?.ingredients ?: emptyList()
+        } else {
+            throw Exception("Failed to fetch ingredients")
+        }
+    }
+
+    suspend fun getMealDetails(id: String): MealDetails {
+        val response = retrofitService.getMealById(id)
+        if (response.isSuccessful) {
+            return response.body()?.meals?.get(0)?.toMealDetails() ?: MealDetails.EMPTY
+        }
+        else{
+                throw Exception("Failed to fetch meal details")
+        }
+    }
+
     suspend fun getMealsByCategory(category: String): List<MealPreview> {
         val response = retrofitService.getMealsByCategory(category)
         if (response.isSuccessful) {
@@ -49,13 +85,12 @@ class MealRepository(
             throw Exception("Failed to fetch meals by area")
         }
     }
-    suspend fun getMealDetails(id: String): MealDetails {
-        val response = retrofitService.getMealById(id)
-        if (response.isSuccessful) {
-            return response.body()?.meals?.get(0)?.toMealDetails() ?: MealDetails.EMPTY
-        }
-        else{
-                throw Exception("Failed to fetch meal details")
+    suspend fun getMealsByIngredient(ingredient: String): List<MealPreview>{
+        val response = retrofitService.getMealsByIngredient(ingredient)
+        if (response.isSuccessful){
+            return response.body()?.meals?.map { it.toMealPreview() } ?: emptyList()
+        }else{
+            throw Exception("Failed to fetch meals by ingredient")
         }
     }
 
@@ -68,11 +103,15 @@ class MealRepository(
     suspend fun getAllMeals(): List<MealPreview> {
         return mealDao.getAllMeals()
     }
-    suspend fun getFavMeals(): List<MealPreview> {
-        return mealDao.getFavMeals()
+    suspend fun getAllMealsWithDate(userId: String): List<MealPreview> {
+        return mealDao.getMealsWithDate(userId)
     }
+
     suspend fun getFavMealsByUserId(userId: String): List<MealPreview> {
         return mealDao.getFavMealsByUserId(userId)
+        }
+    suspend fun getMealsByUserIdAndDate(userId: String , date: String): List<MealPreview> {
+        return mealDao.getMealsByUserIdAndDate(userId, date)
     }
     suspend fun getFavMealById(id: String , userId: String): MealPreview? {
         return mealDao.getMealById(id, userId)

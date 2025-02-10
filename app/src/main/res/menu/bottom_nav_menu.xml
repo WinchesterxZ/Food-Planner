@@ -20,8 +20,5 @@
         android:id="@+id/calenderFragment"
         android:icon="@drawable/ic_calender"
         android:title="Calender" />
-    <item
-        android:id="@+id/profileFragment"
-        android:icon="@drawable/ic_profile"
-        android:title="Profile" />
+ x
 </menu>

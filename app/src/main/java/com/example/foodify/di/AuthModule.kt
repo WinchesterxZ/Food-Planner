@@ -5,6 +5,7 @@ import com.example.foodify.MainActivityViewModel
 import com.example.foodify.authentication.viewmodel.LoginViewModel
 import com.example.foodify.authentication.viewmodel.SignUpViewModel
 import com.example.foodify.bookmarks.viewmodel.BookmarksViewmodel
+import com.example.foodify.calender.viewmodel.CalenderViewModel
 import com.example.foodify.data.db.AuthLocalDataSource
 import com.example.foodify.repository.AuthenticationRepository
 import com.example.foodify.data.api.FirebaseService
@@ -14,7 +15,10 @@ import com.example.foodify.data.db.MealDatabase
 import com.example.foodify.home.viewmodel.HomeViewModel
 import com.example.foodify.home.viewmodel.UserRepository
 import com.example.foodify.mealDetails.viewModel.MealDetailsViewModel
+import com.example.foodify.repository.FirestoreRepository
 import com.example.foodify.repository.MealRepository
+import com.example.foodify.search.viewmodel.SearchResultViewModel
+import com.example.foodify.search.viewmodel.SearchViewModel
 import com.example.foodify.util.sharedPrefFileName
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.android.ext.koin.androidContext
@@ -40,6 +44,7 @@ val authModule = module {
 
     single { MealRepository(get(), get()) }
     single { UserRepository(get())}
+    single { FirestoreRepository() }
     // Provide ViewModels
     viewModel { LoginViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
@@ -47,4 +52,8 @@ val authModule = module {
     viewModel { HomeViewModel(get(), get()) }
     viewModel {BookmarksViewmodel(get(), get())}
     viewModel { MealDetailsViewModel(get(), get())}
+    viewModel { SearchViewModel(get()) }
+    viewModel { SearchResultViewModel(get())}
+    viewModel { CalenderViewModel(get(),get()) }
+
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment2_to_mealDetailsFragment"
             app:destination="@id/mealDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -22,6 +25,9 @@
         <action
             android:id="@+id/action_searchFragment_to_mealDetailsFragment"
             app:destination="@id/mealDetailsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookmarksFragment"
@@ -52,7 +58,24 @@
 
     <fragment
         android:id="@+id/calenderFragment"
-        android:name="com.example.foodify.calender.CalenderFragment"
+        android:name="com.example.foodify.calender.view.CalenderFragment"
         android:label="fragment_calender"
         tools:layout="@layout/fragment_calender" />
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.example.foodify.search.view.SearchResultFragment"
+        android:label="fragment_search_result"
+        tools:layout="@layout/fragment_search_result" >
+        <argument
+            android:name="searchType"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="searchName"
+            app:argType="string"
+            android:defaultValue="" />
+        <action
+            android:id="@+id/action_searchResultFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+    </fragment>
 </navigation>

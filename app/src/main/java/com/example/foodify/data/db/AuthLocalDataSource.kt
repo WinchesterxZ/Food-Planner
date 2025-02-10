@@ -10,6 +10,7 @@ class AuthLocalDataSource(context: Context) {
     companion object {
         private const val PREF_NAME = "secure_prefs"
         const val KEY_IS_LOGGED_IN = "is_logged_in"
+        const val KEY_IS_GUEST = "is_guest"
     }
 
     private val masterKey = MasterKey.Builder(context)
@@ -30,6 +31,13 @@ class AuthLocalDataSource(context: Context) {
 
     fun isLoggedIn(): Boolean {
         return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)
+    }
+
+    fun saveGuestMode(isGuest: Boolean) {
+        sharedPreferences.edit().putBoolean(KEY_IS_GUEST, isGuest).apply()
+    }
+    fun isGuestMode(): Boolean {
+        return sharedPreferences.getBoolean(KEY_IS_GUEST, false)
     }
 
 

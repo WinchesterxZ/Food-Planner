@@ -18,4 +18,7 @@ class MainActivityViewModel(
         return authRepository.getCurrentUser()
 
     }
+    fun isUserGuest():Boolean{
+        return authRepository.isUserGuest()
+    }
 }

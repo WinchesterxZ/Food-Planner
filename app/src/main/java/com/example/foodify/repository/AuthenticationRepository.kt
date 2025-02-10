@@ -109,6 +109,12 @@ class AuthenticationRepository(
     fun isUserLoggedIn(): Boolean {
         return authLocalDataSource.isLoggedIn()
     }
+    fun isUserGuest():Boolean{
+        return  authLocalDataSource.isGuestMode()
+    }
+    fun saveGuestMode(isGuest:Boolean){
+        authLocalDataSource.saveGuestMode(isGuest)
+    }
 
     private fun getFirebaseErrorMessage(exception: Exception?): String {
         if (exception is FirebaseAuthException) {

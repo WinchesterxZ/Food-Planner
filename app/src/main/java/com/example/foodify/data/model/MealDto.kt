@@ -26,7 +26,8 @@ data class MealDto(
     val strMeasure16: String?, val strMeasure17: String?, val strMeasure18: String?,
     val strMeasure19: String?, val strMeasure20: String?,
     val isFavorite: Boolean,
-    val userId: String?
+    val userId: String?,
+    val mealPlan: String?
 ) {
     // Mapping to MealPreview (Home & Bookmarks)
     fun toMealPreview() = MealPreview(
@@ -34,7 +35,8 @@ data class MealDto(
         strMeal = strMeal,
         strMealThumb = strMealThumb,
         isFav = isFavorite,
-        userId = userId
+        userId = userId,
+        mealPlan = mealPlan
     )
 
     // Mapping to MealDetails (Details Screen)
@@ -43,55 +45,18 @@ data class MealDto(
         name = strMeal,
         category = strCategory,
         area = strArea,
-        instructions = strInstructions,
+        instructions = strInstructions.split("\r\n").filter { it.isNotBlank() }, // Split into list
         thumbnail = strMealThumb,
         youtube = strYoutube,
         source = strSource,
-        ingredients = listOfNotNull(
-            strIngredient1,
-            strIngredient2,
-            strIngredient3,
-            strIngredient4,
-            strIngredient5,
-            strIngredient6,
-            strIngredient7,
-            strIngredient8,
-            strIngredient9,
-            strIngredient10,
-            strIngredient11,
-            strIngredient12,
-            strIngredient13,
-            strIngredient14,
-            strIngredient15,
-            strIngredient16,
-            strIngredient17,
-            strIngredient18,
-            strIngredient19,
-            strIngredient20
-        ),
-        measures = listOfNotNull(
-            strMeasure1,
-            strMeasure2,
-            strMeasure3,
-            strMeasure4,
-            strMeasure5,
-            strMeasure6,
-            strMeasure7,
-            strMeasure8,
-            strMeasure9,
-            strMeasure10,
-            strMeasure11,
-            strMeasure12,
-            strMeasure13,
-            strMeasure14,
-            strMeasure15,
-            strMeasure16,
-            strMeasure17,
-            strMeasure18,
-            strMeasure19,
-            strMeasure20
-        ),
+        ingredients =  (1..20).mapNotNull { index ->
+            val ingredient = this::class.members.find { it.name == "strIngredient$index" }?.call(this) as? String
+            val measure = this::class.members.find { it.name == "strMeasure$index" }?.call(this) as? String
+
+            if (!ingredient.isNullOrBlank()) IngredientItem(ingredient, measure ?: "") else null
+        },
         isFav = isFavorite, // Pass the isFav value
-        userId = userId
+        userId = userId,
+        mealPlan = mealPlan
     )
 }
