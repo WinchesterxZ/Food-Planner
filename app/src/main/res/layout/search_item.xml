@@ -6,6 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/categoryCard"
         android:layout_width="wrap_content"
@@ -24,6 +27,15 @@
             android:scaleType="centerCrop"
             />
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone">
+
+        </ProgressBar>
+
     </com.google.android.material.card.MaterialCardView>
     <TextView
         android:id="@+id/subName"
@@ -39,17 +51,7 @@
         tools:text="Category">
     </TextView>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/categoryCard"
-        app:layout_constraintBottom_toBottomOf="@id/categoryCard"
-        app:layout_constraintStart_toStartOf="@id/categoryCard"
-        app:layout_constraintEnd_toEndOf="@id/categoryCard"
-        android:visibility="gone">
 
-    </ProgressBar>
 
 
 
