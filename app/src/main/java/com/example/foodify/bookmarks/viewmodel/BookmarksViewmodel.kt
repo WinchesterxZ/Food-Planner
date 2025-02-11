@@ -1,15 +1,12 @@
 package com.example.foodify.bookmarks.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodify.bookmarks.view.SyncState
-import com.example.foodify.data.model.Category
 import com.example.foodify.data.model.MealPreview
 import com.example.foodify.home.view.MealState
-import com.example.foodify.home.viewmodel.UserRepository
 import com.example.foodify.repository.FirestoreRepository
 import com.example.foodify.repository.MealRepository
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +66,6 @@ class BookmarksViewmodel(
                 val localMeals = mealRepository.getFavMealsByUserId(userId)
                 val remoteMeals = firestoreRepository.syncBookmarkedMeals(userId)
                 if (remoteMeals.containsAll(localMeals)) {
-                    Log.d("aloo", "backupBookmarkedMeals: ")
                     withContext(Dispatchers.Main){
                         _syncState.value = SyncState.NoChange("Bookmarks are already backed up!")
                     }

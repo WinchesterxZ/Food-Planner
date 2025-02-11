@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.pedant.SweetAlert.SweetAlertDialog
-import com.example.foodify.MainActivityViewModel
+import com.example.foodify.main.MainActivityViewModel
 import com.example.foodify.adapter.MealsAdapter
 import com.example.foodify.bookmarks.viewmodel.BookmarksViewmodel
 import com.example.foodify.data.model.MealPreview
 import com.example.foodify.databinding.FragmentBookmarksBinding
 import com.example.foodify.home.view.MealState
-import com.example.foodify.home.view.OnItemClickListener
+import com.example.foodify.adapter.listeners.OnItemClickListener
 import com.example.foodify.util.NetworkUtils
 import com.example.foodify.util.showErrorSnackBar
 import com.example.foodify.util.showInfoSnackBar
@@ -24,13 +24,13 @@ import com.example.foodify.util.showSuccessSnackBar
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookmarksFragment : Fragment(), OnItemClickListener{
+class BookmarksFragment : Fragment(), OnItemClickListener {
     private lateinit var _binding: FragmentBookmarksBinding
     private val binding get() = _binding
     private val viewModel: BookmarksViewmodel by viewModel()
     private lateinit var pDialog: SweetAlertDialog
     private lateinit var mealAdapter: MealsAdapter
-    private val mainViewModel:MainActivityViewModel by activityViewModel()
+    private val mainViewModel: MainActivityViewModel by activityViewModel()
     private lateinit var userId: String
     private lateinit var networkUtils: NetworkUtils
 

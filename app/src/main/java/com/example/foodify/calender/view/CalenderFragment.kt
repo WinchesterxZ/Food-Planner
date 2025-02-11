@@ -1,20 +1,19 @@
 package com.example.foodify.calender.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.pedant.SweetAlert.SweetAlertDialog
-import com.example.foodify.MainActivityViewModel
+import com.example.foodify.main.MainActivityViewModel
 import com.example.foodify.adapter.MealPlanAdapter
 import com.example.foodify.bookmarks.view.SyncState
 import com.example.foodify.calender.viewmodel.CalenderViewModel
 import com.example.foodify.data.model.MealPreview
 import com.example.foodify.databinding.FragmentCalenderBinding
-import com.example.foodify.home.view.OnItemClickListener
+import com.example.foodify.adapter.listeners.OnItemClickListener
 import com.example.foodify.util.NetworkUtils
 import com.example.foodify.util.showErrorSnackBar
 import com.example.foodify.util.showInfoSnackBar
@@ -26,7 +25,7 @@ import java.util.Locale
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CalenderFragment : Fragment(),OnItemClickListener {
+class CalenderFragment : Fragment(), OnItemClickListener {
     private lateinit var _binding: FragmentCalenderBinding
     private val binding get() = _binding
     private lateinit var calender: Calendar
@@ -97,7 +96,6 @@ class CalenderFragment : Fragment(),OnItemClickListener {
                 }
                 is SyncState.Error -> {
                     pDialog.dismiss()
-                    Log.d("aloo", "observeSyncAndBackUpState: ${state.message}")
                     showErrorSnackBar(binding.root, state.message)
                 }
                 is SyncState.NoChange -> {
@@ -133,7 +131,6 @@ class CalenderFragment : Fragment(),OnItemClickListener {
 
     private fun showMealDetails(meals: List<MealPreview>) {
         pDialog.dismiss()
-        Log.d("CalenderFragment", "Meals: $meals")
         if(meals.isEmpty()){
             binding.backup.visibility= View.GONE
         }else{

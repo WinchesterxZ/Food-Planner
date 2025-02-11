@@ -7,8 +7,6 @@ import androidx.room.Query
 import com.example.foodify.data.model.MealPreview
 @Dao
 interface MealDao {
-    @Query("SELECT * FROM meals")
-    suspend fun getAllMeals(): List<MealPreview>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeal(meal: MealPreview):Long
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -22,6 +20,6 @@ interface MealDao {
     @Query("SELECT * FROM meals WHERE userId = :userId And mealPlan = :date")
     suspend fun getMealsByUserIdAndDate(userId: String , date: String): List<MealPreview>
     @Query("SELECT * FROM meals WHERE userId = :userId AND mealPlan IS NOT NULL AND mealPlan != ''")
-    fun getMealsWithDate(userId: String): List<MealPreview>
+    suspend fun getMealsWithDate(userId: String): List<MealPreview>
 
 }

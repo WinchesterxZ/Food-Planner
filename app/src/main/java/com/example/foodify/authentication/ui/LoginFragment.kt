@@ -9,12 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.foodify.BuildConfig
-import com.example.foodify.MainActivity
+import com.example.foodify.main.MainActivity
 import com.example.foodify.R
 import com.example.foodify.authentication.viewmodel.LoginViewModel
 import com.example.foodify.data.model.Result
 import com.example.foodify.databinding.FragmentLoginBinding
-import com.example.foodify.di.authModule
 import com.example.foodify.util.showErrorSnackBar
 import com.example.foodify.util.showProgressDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel

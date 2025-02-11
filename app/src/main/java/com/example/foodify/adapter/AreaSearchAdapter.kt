@@ -1,17 +1,14 @@
 package com.example.foodify.adapter
-
-import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.foodify.data.model.Area
 import com.example.foodify.databinding.SearchItemBinding
+import com.example.foodify.util.countryCodeMap
 
 class AreaSearchAdapter(private val onCategoryClick: (String) -> Unit) :
     ListAdapter<Area, AreaSearchAdapter.AreaViewHolder>(AreaDiffCallback()) {
@@ -20,36 +17,6 @@ class AreaSearchAdapter(private val onCategoryClick: (String) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(area: Area) {
-            val countryCodeMap = mapOf(
-                "American" to "us",
-                "British" to "gb",
-                "Canadian" to "ca",
-                "Chinese" to "cn",
-                "Croatian" to "hr",
-                "Dutch" to "nl",
-                "Egyptian" to "eg",
-                "Filipino" to "ph",
-                "French" to "fr",
-                "Greek" to "gr",
-                "Indian" to "in",
-                "Irish" to "ie",
-                "Italian" to "it",
-                "Jamaican" to "jm",
-                "Japanese" to "jp",
-                "Kenyan" to "ke",
-                "Malaysian" to "my",
-                "Mexican" to "mx",
-                "Moroccan" to "ma",
-                "Polish" to "pl",
-                "Portuguese" to "pt",
-                "Russian" to "ru",
-                "Spanish" to "es",
-                "Thai" to "th",
-                "Tunisian" to "tn",
-                "Turkish" to "tr",
-                "Ukrainian" to "ua",
-                "Vietnamese" to "vn",
-            )
             binding.apply {
                 progressBar.visibility = View.VISIBLE
                 subName.text = area.strArea
@@ -62,7 +29,6 @@ class AreaSearchAdapter(private val onCategoryClick: (String) -> Unit) :
                 } else {
                     "https://flagcdn.com/w320/$countryCode.png"
                 }
-                Log.d("xxx", "bind: $flagUrl")
                 image.load(flagUrl){
                     listener(
                         onSuccess = { _, _ -> progressBar.visibility = View.GONE },

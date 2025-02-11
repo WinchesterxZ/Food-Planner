@@ -1,19 +1,15 @@
 package com.example.foodify.search.view
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.pedant.SweetAlert.SweetAlertDialog
-import com.example.foodify.MainActivity
-import com.example.foodify.MainActivityViewModel
 import com.example.foodify.adapter.AreaSearchAdapter
 import com.example.foodify.adapter.CategoriesSearchAdapter
 import com.example.foodify.adapter.IngredientAdapter
@@ -21,11 +17,11 @@ import com.example.foodify.data.model.Area
 import com.example.foodify.data.model.Category
 import com.example.foodify.data.model.Ingredient
 import com.example.foodify.databinding.FragmentSearchBinding
+import com.example.foodify.main.MainActivity
 import com.example.foodify.search.viewmodel.SearchViewModel
 import com.example.foodify.util.showErrorSnackBar
 import com.example.foodify.util.showProgressDialog
 import com.google.android.material.chip.Chip
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -39,10 +35,6 @@ class SearchFragment : Fragment() {
     private lateinit var pDialog: SweetAlertDialog
     private lateinit var searchAutoCompleteTextView: AutoCompleteTextView
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -99,7 +91,6 @@ class SearchFragment : Fragment() {
 
     private fun observeSearchState() {
         viewModel.searchState.observe(viewLifecycleOwner) { state ->
-            Log.d("zzzz", "observeSearchState:$state ")
             when (state) {
                 is SearchState.Loading -> {
                     showLoading()
@@ -133,7 +124,7 @@ class SearchFragment : Fragment() {
     private fun loadIngredients(ingredients: List<Ingredient>) {
 
         pDialog.dismiss()
-        ingredientsAdapter = IngredientAdapter(){ingredient->
+        ingredientsAdapter = IngredientAdapter{ingredient->
             val action = SearchFragmentDirections.actionSearchFragmentToSearchResultFragment(
                 "ingredient",
                 ingredient
@@ -146,7 +137,7 @@ class SearchFragment : Fragment() {
 
     private fun loadAreas(areas: List<Area>) {
         pDialog.dismiss()
-        areasAdapter = AreaSearchAdapter(){area->
+        areasAdapter = AreaSearchAdapter{area->
             val action = SearchFragmentDirections.actionSearchFragmentToSearchResultFragment(
                 "area",
                 area
@@ -163,7 +154,7 @@ class SearchFragment : Fragment() {
 
     private fun loadCategories(categories: List<Category>) {
         pDialog.dismiss()
-        categoriesAdapter = CategoriesSearchAdapter(){
+        categoriesAdapter = CategoriesSearchAdapter{
             val action = SearchFragmentDirections.actionSearchFragmentToSearchResultFragment(
                 "category",
                 it

@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.EditorInfo.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.AutoCompleteTextView
 import androidx.navigation.fragment.findNavController
@@ -18,10 +16,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.pedant.SweetAlert.SweetAlertDialog
 import coil.load
-import com.example.foodify.MainActivity
-import com.example.foodify.MainActivityViewModel
+import com.example.foodify.main.MainActivity
+import com.example.foodify.main.MainActivityViewModel
 import com.example.foodify.adapter.CategoryAdapter
 import com.example.foodify.adapter.MealsAdapter
+import com.example.foodify.adapter.listeners.OnItemClickListener
 import com.example.foodify.authentication.ui.AuthActivity
 import com.example.foodify.data.model.Category
 import com.example.foodify.data.model.MealPreview
@@ -70,7 +69,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
         searchAutoCompleteTextView = activityBinding.toolbar.searchAutoCompleteTextView
         hint = searchAutoCompleteTextView.hint.toString()
         searchAutoCompleteTextView.hint = "Search Meal By Name"
-        viewModel.loadHomeData()
+        viewModel.loadHomeData(userId)
         observeHomeData()
     }
 
@@ -109,7 +108,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
     private fun observeHomeData() {
         viewModel.mealState.observe(viewLifecycleOwner) { state ->
-            Log.d("a3a3a3a3", "observeHomeData: $state")
             when (state) {
                 is MealState.Loading -> showLoading()
                 is MealState.Success -> {
@@ -191,7 +189,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 onSuccess = { _, _ ->
                     run {
                         binding.randomMealLayout.progressBar.visibility = View.GONE
-                        Log.d("a3a3a", "showRandomMeal: zzzzzzzz")
                     }
                 },
                 onError = { _, _ -> binding.randomMealLayout.progressBar.visibility = View.GONE }
@@ -207,7 +204,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
                         com.example.foodify.R.drawable.ic_bookmark
                     }
                 )
-                viewModel.addMeal(meal)
+                viewModel.addMeal(meal,userId)
             } else {
                 showLoginDialog(requireContext()) {
                     goToLoginActivity()
@@ -235,7 +232,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
         if (userId.isNotEmpty()) {
             viewModel.toggleFavButton(meal)
             if (meal.isFav) {
-                viewModel.addMeal(meal)
+                viewModel.addMeal(meal,userId)
             } else {
                 viewModel.removeMeal(meal.idMeal)
             }
@@ -247,11 +244,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("ooo", "onDestroy: $hint")
-        searchAutoCompleteTextView.hint = hint
-    }
 
 
 }

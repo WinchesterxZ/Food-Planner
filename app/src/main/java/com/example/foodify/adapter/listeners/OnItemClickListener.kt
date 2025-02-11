@@ -1,4 +1,4 @@
-package com.example.foodify.home.view
+package com.example.foodify.adapter.listeners
 
 import com.example.foodify.data.model.MealPreview
 

@@ -39,11 +39,6 @@
             app:destination="@id/mealDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.foodify.profile.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
         android:id="@+id/mealDetailsFragment"
         android:name="com.example.foodify.mealDetails.view.MealDetailsFragment"
         android:label="fragment_meal_details"

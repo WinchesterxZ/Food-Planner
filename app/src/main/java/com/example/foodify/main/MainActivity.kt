@@ -1,4 +1,4 @@
-package com.example.foodify
+package com.example.foodify.main
 
 
 import android.annotation.SuppressLint
@@ -22,6 +22,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import cn.pedant.SweetAlert.SweetAlertDialog
 import coil.load
+import com.example.foodify.R
 import com.example.foodify.authentication.ui.AuthActivity
 import com.example.foodify.databinding.ActivityMainBinding
 import com.example.foodify.util.NetworkUtils
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         handleBackButtonForNonTopLevel()
         setupBottomAndDrawerNav()
         setupAppBarConfiguration()
-        loadUserImage()
+        loadUserData()
         handleLogout()
         handleSearch()
         checkInitialNetworkState()
@@ -81,41 +82,41 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleNetworkState(connected: Boolean) {
 
-                val allowedFragments = setOf(R.id.bookmarksFragment, R.id.calenderFragment)
-                val currentFragmentId = navController.currentDestination?.id
+        val allowedFragments = setOf(R.id.bookmarksFragment, R.id.calenderFragment)
+        val currentFragmentId = navController.currentDestination?.id
 
-                if (!connected) {
-                    binding.toolbar.toolbar.visibility = View.GONE
+        if (!connected) {
+            binding.toolbar.toolbar.visibility = View.GONE
 
-                    if (currentFragmentId !in allowedFragments) {
-                        binding.navHostFragment.visibility = View.GONE
-                        showNoInternetDialog()
-                    }
+            if (currentFragmentId !in allowedFragments) {
+                binding.navHostFragment.visibility = View.GONE
+                showNoInternetDialog()
+            }
 
-                    // Restrict navigation to only the allowed fragments
-                    binding.bottomNavigationView.setOnItemSelectedListener { item ->
-                        if (item.itemId in allowedFragments) {
-                            binding.navHostFragment.visibility = View.VISIBLE
-                            binding.toolbar.toolbar.visibility = View.GONE
-                            navController.navigate(item.itemId)
-                            true
-                        } else {
-                            showNoInternetDialog()
-                            false
-                        }
-                    }
-
-                } else {
+            // Restrict navigation to only the allowed fragments
+            binding.bottomNavigationView.setOnItemSelectedListener { item ->
+                if (item.itemId in allowedFragments) {
                     binding.navHostFragment.visibility = View.VISIBLE
-                    binding.toolbar.toolbar.visibility = View.VISIBLE
-                    binding.bottomNavigationView.visibility = View.VISIBLE
-
-                    // Restore normal navigation behavior
-                    binding.bottomNavigationView.setOnItemSelectedListener { item ->
-                        navController.navigate(item.itemId)
-                        true
-                    }
+                    binding.toolbar.toolbar.visibility = View.GONE
+                    navController.navigate(item.itemId)
+                    true
+                } else {
+                    showNoInternetDialog()
+                    false
                 }
+            }
+
+        } else {
+            binding.navHostFragment.visibility = View.VISIBLE
+            binding.toolbar.toolbar.visibility = View.VISIBLE
+            binding.bottomNavigationView.visibility = View.VISIBLE
+
+            // Restore normal navigation behavior
+            binding.bottomNavigationView.setOnItemSelectedListener { item ->
+                navController.navigate(item.itemId)
+                true
+            }
+        }
     }
 
 
@@ -156,7 +157,10 @@ class MainActivity : AppCompatActivity() {
     private fun handleLogout() {
 
         binding.navigationView.setNavigationItemSelectedListener { item ->
-            Log.d("teste", "handleLogout: ${viewModel.getCurrentUser() == null}  + ${viewModel.isUserGuest()}")
+            Log.d(
+                "teste",
+                "handleLogout: ${viewModel.getCurrentUser() == null}  + ${viewModel.isUserGuest()}"
+            )
             val isGuest = viewModel.getCurrentUser() == null || viewModel.isUserGuest()
             if (isGuest && (item.itemId == R.id.bookmarksFragment || item.itemId == R.id.calenderFragment)) {
                 showErrorSnackBar(binding.root, "Please log in to access this feature")
@@ -184,7 +188,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun loadUserImage() {
+    private fun loadUserData() {
         binding.toolbar.userImage.load(viewModel.getCurrentUser()?.photoUrl) {
             placeholder(R.drawable.profile) // Show while loading
             error(R.drawable.profile) // Show if URL is null or fails
@@ -193,16 +197,17 @@ class MainActivity : AppCompatActivity() {
         val headerView = binding.navigationView.getHeaderView(0)
         val userImage = headerView.findViewById<ImageView>(R.id.userHeaderImage)
         val userName = headerView.findViewById<TextView>(R.id.profileHeaderName)
-
-        // Initialize Facebook Login button
-        if(viewModel.getCurrentUser()==null || viewModel.isUserGuest()){
+        if (viewModel.getCurrentUser() == null || viewModel.isUserGuest()) {
             userName.text = "Guest"
+        } else {
+            userName.text = viewModel.getCurrentUser()?.displayName
         }
         userImage.load(viewModel.getCurrentUser()?.photoUrl) {
             placeholder(R.drawable.profile) // Show while loading
             error(R.drawable.profile) // Show if URL is null or fails
             fallback(R.drawable.profile) // Show if URL is explicitly null
         }
+
     }
 
     private fun setupAppBarConfiguration() {
@@ -257,7 +262,8 @@ class MainActivity : AppCompatActivity() {
                     binding.toolbar.searchAutoCompleteTextView.visibility = View.GONE
                     binding.toolbar.toolbar.visibility = View.GONE
                 }
-                R.id.bookmarksFragment->{
+
+                R.id.bookmarksFragment -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(false) //show back button
                     binding.toolbar.searchAutoCompleteTextView.visibility = View.GONE
                     binding.toolbar.toolbar.visibility = View.GONE

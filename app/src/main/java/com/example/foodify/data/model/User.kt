@@ -7,7 +7,6 @@ data class User(
     val email: String?, // Email address (nullable, as Google sign-in might not provide it)
     val displayName: String?, // User's display name (from Firebase or custom)
     val photoUrl: String?, // Photo URL (from Firebase or custom)
-    // Add other custom user data you need to store:
     val firstName: String?,
     val lastName: String?,
     val phoneNumber: String?,

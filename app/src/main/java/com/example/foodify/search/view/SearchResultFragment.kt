@@ -14,14 +14,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.pedant.SweetAlert.SweetAlertDialog
-import com.example.foodify.MainActivity
-import com.example.foodify.MainActivityViewModel
+import com.example.foodify.main.MainActivity
+import com.example.foodify.main.MainActivityViewModel
 import com.example.foodify.adapter.MealsAdapter
 import com.example.foodify.authentication.ui.AuthActivity
 import com.example.foodify.data.model.MealPreview
 import com.example.foodify.databinding.FragmentSearchResultBinding
 import com.example.foodify.home.view.MealState
-import com.example.foodify.home.view.OnItemClickListener
+import com.example.foodify.adapter.listeners.OnItemClickListener
 import com.example.foodify.search.viewmodel.SearchResultViewModel
 import com.example.foodify.util.showErrorSnackBar
 import com.example.foodify.util.showLoginDialog
@@ -30,10 +30,10 @@ import com.example.foodify.util.showSuccessSnackBar
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchResultFragment : Fragment(),OnItemClickListener {
+class SearchResultFragment : Fragment(), OnItemClickListener {
     private lateinit var _binding: FragmentSearchResultBinding
     private val viewModel: SearchResultViewModel by viewModel()
-    private val mainViewModel:MainActivityViewModel by activityViewModel()
+    private val mainViewModel: MainActivityViewModel by activityViewModel()
     private val args: SearchResultFragmentArgs by navArgs()
     private val binding get() = _binding
     private lateinit var pDialog: SweetAlertDialog

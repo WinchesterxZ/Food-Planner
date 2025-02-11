@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.foodify.R
 import com.musfickjamil.snackify.Snackify
-import kotlin.math.log
 
 fun showProgressDialog(context: Context): SweetAlertDialog {
     val pDialog= SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE)

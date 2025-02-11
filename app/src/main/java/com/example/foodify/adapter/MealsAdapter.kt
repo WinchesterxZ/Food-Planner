@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.foodify.data.model.MealPreview
 import com.example.foodify.databinding.MealItemBinding
-import com.example.foodify.home.view.OnItemClickListener
+import com.example.foodify.adapter.listeners.OnItemClickListener
 
-class MealsAdapter(private val onBookmarkClick:OnItemClickListener, private val onMealClick: (String) -> Unit) :
+class MealsAdapter(private val onBookmarkClick: OnItemClickListener, private val onMealClick: (String) -> Unit) :
     ListAdapter<MealPreview, MealsAdapter.MealsViewHolder>(MealDiffCallback()) {
 
     inner class MealsViewHolder(val binding: MealItemBinding) :

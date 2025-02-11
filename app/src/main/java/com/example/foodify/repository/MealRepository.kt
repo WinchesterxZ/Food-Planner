@@ -1,7 +1,6 @@
 package com.example.foodify.repository
 
 import MealDetails
-import android.util.Log
 import com.example.foodify.data.api.RetrofitService
 import com.example.foodify.data.db.MealDao
 import com.example.foodify.data.model.Area
@@ -40,10 +39,7 @@ class MealRepository(
     }
     suspend fun getMealsArea(): List<Area> {
         val response = retrofitService.getAreas()
-        Log.d("xxx", "getMealsArea: $response")
         if (response.isSuccessful) {
-            Log.d("xxx", "getMealsArea: ${response.body()}")
-            Log.d("xxx", "getMealsArea: ${response.body()?.areas}")
             return response.body()?.areas ?: emptyList()
         } else {
             throw Exception("Failed to fetch areas")
@@ -99,9 +95,6 @@ class MealRepository(
     }
     suspend fun insertMeals(meals: List<MealPreview>): List<Long> {
         return mealDao.insertMeals(meals)
-    }
-    suspend fun getAllMeals(): List<MealPreview> {
-        return mealDao.getAllMeals()
     }
     suspend fun getAllMealsWithDate(userId: String): List<MealPreview> {
         return mealDao.getMealsWithDate(userId)

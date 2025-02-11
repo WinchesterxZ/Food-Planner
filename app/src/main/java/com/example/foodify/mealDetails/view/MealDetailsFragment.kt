@@ -16,6 +16,7 @@ import com.example.foodify.adapter.IngredientsAdapter
 import com.example.foodify.adapter.InstructionsAdapter
 import com.example.foodify.data.model.MealPreview
 import com.example.foodify.databinding.FragmentMealDetailsBinding
+import com.example.foodify.main.MainActivityViewModel
 import com.example.foodify.mealDetails.viewModel.MealDetailsState
 import com.example.foodify.mealDetails.viewModel.MealDetailsViewModel
 import com.example.foodify.util.showErrorSnackBar
@@ -24,6 +25,7 @@ import com.example.foodify.util.showSuccessSnackBar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -35,6 +37,13 @@ class MealDetailsFragment : Fragment() {
     private val args: MealDetailsFragmentArgs by navArgs()
     private val viewModel: MealDetailsViewModel by viewModel()
     private lateinit var pDialog: SweetAlertDialog
+    private val mainViewModel: MainActivityViewModel by activityViewModel()
+    private lateinit var userId: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        userId = mainViewModel.getCurrentUser()?.uid ?: ""
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,10 +54,8 @@ class MealDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getMealDetails(args.mealId)
+        viewModel.getMealDetails(args.mealId,userId)
         binding.ingredientRecyclerview.layoutManager = LinearLayoutManager(requireContext())
-        binding.instructionsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
-        //setupToolbar()
         pDialog = showProgressDialog(requireContext())
         observeMealState()
         binding.navBack.setOnClickListener{
@@ -69,7 +76,6 @@ class MealDetailsFragment : Fragment() {
 
                 is MealDetailsState.Success -> {
                     showMealDetails(state.meals)
-                    Log.d("a3a3a3a3", "observeMealState: ${state.meals.isFav} + ${state.meals.id} + ${state.meals.instructions}, ${state.meals.ingredients}")
                 }
                 is MealDetailsState.Message -> handleMessageState(state)
                 is MealDetailsState.Error -> showError(state)
@@ -118,7 +124,6 @@ class MealDetailsFragment : Fragment() {
                    datePicker.show(parentFragmentManager, "MaterialDatePicker")
                    datePicker.addOnPositiveButtonClickListener { selection ->
                        val date = convertLongToDate(selection)
-                       Log.d("teste", "handleCalenderClick: $date")
                        viewModel.addMealToCalender(
                            MealPreview(
                                idMeal = meal.id,
@@ -127,7 +132,8 @@ class MealDetailsFragment : Fragment() {
                                isFav = meal.isFav,
                                userId = meal.userId,
                                mealPlan = date
-                           )
+                           ),
+                           userId
                        )
                        binding.calenderIcon.setImageResource(R.drawable.calender_fill)
                    }
@@ -155,7 +161,8 @@ class MealDetailsFragment : Fragment() {
                         isFav = true,
                         userId = meal.userId,
                         mealPlan = meal.mealPlan
-                    )
+                    ),
+                    userId
                 )
                 binding.bookmarkIcon.setImageResource(R.drawable.ic_bookmark_fill)
             } else {
@@ -203,84 +210,6 @@ class MealDetailsFragment : Fragment() {
         return regex.find(url)?.groupValues?.get(1)
     }
 
-    /*
-     private  fun setupToolbar(){
-      activityBinding = (requireActivity() as MainActivity).binding
-      toolbar = activityBinding.toolbar.root
-      originalToolbarHeight = toolbar.layoutParams.height
-      originalToolbarBackground = toolbar.background
-      view?.post {
-          toolbar.layoutParams.height = requireView().height / 3
-          toolbar.requestLayout()
-      }
-      toolbar.menu.clear()
-      toolbar.inflateMenu(R.menu.meal_details_menu)
-      // Find the Up button and set background
-      toolbar.navigationIcon?.let {
-          val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.image_circular_background)
-          toolbar.navigationIcon = drawable
-      }
-      toolbar.setNavigationOnClickListener {
-          requireActivity().onBackPressedDispatcher.onBackPressed()
-      }
-    }
-
-
-    private fun setUpToolbarCalender(meal: MealDetails) {
-        val calender = toolbar.menu.findItem(R.id.action_calender)
-        val calenderView = LayoutInflater.from(toolbar.context)
-            .inflate(R.layout.custom_calender_item, toolbar, false)
-        calender.actionView = calenderView
-        // Set background & icon
-        calenderView.setBackgroundResource(R.drawable.image_circular_background)
-        val calenderIcon = calenderView.findViewById<AppCompatImageView>(R.id.custom_icon_calender)
-        //calenderIcon.setImageResource(if (meal.isFav) R.drawable.ic_bookmark_fill else R.drawable.ic_bookmark)
-
-        // Handle clicks
-        calenderView.setOnClickListener {
-
-        }
-    }
-
-    private fun setUpToolbarFavorite(meal: MealDetails) {
-        val bookmark = toolbar.menu.findItem(R.id.action_bookmark)
-        val bookmarkView = LayoutInflater.from(toolbar.context)
-            .inflate(R.layout.custom_bookmark_item, toolbar, false)
-        bookmark.actionView = bookmarkView
-       // Set background & icon
-
-        bookmarkView.setBackgroundResource(R.drawable.image_circular_background)
-        val bookmarkIcon = bookmarkView.findViewById<AppCompatImageView>(R.id.custom_icon)
-        bookmarkIcon.setImageResource(if (meal.isFav) R.drawable.ic_bookmark_fill else R.drawable.ic_bookmark)
-
-        // Handle clicks
-        bookmarkView.setOnClickListener {
-            viewModel.toggleFavButton(meal)
-            if (meal.isFav) {
-                viewModel.addMeal(
-                    MealPreview(
-                        idMeal = meal.id,
-                        strMeal = meal.name,
-                        strMealThumb = meal.thumbnail,
-                        isFav = true,
-                        userId = meal.userId
-                    )
-                )
-                bookmarkIcon.setImageResource(R.drawable.ic_bookmark_fill)
-            } else {
-                viewModel.removeMeal(meal.id)
-                bookmarkIcon.setImageResource(R.drawable.ic_bookmark)
-            }
-        }
-    }
-     override fun onDestroyView() {
-        super.onDestroyView()
-        toolbar.menu.clear()
-        toolbar.layoutParams.height = originalToolbarHeight
-        toolbar.background = originalToolbarBackground
-        activityBinding.toolbar.toolbarBackground.visibility = View.GONE
-    }
-     */
 
 
 }
