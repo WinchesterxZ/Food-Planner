@@ -157,10 +157,6 @@ class MainActivity : AppCompatActivity() {
     private fun handleLogout() {
 
         binding.navigationView.setNavigationItemSelectedListener { item ->
-            Log.d(
-                "teste",
-                "handleLogout: ${viewModel.getCurrentUser() == null}  + ${viewModel.isUserGuest()}"
-            )
             val isGuest = viewModel.getCurrentUser() == null || viewModel.isUserGuest()
             if (isGuest && (item.itemId == R.id.bookmarksFragment || item.itemId == R.id.calenderFragment)) {
                 showErrorSnackBar(binding.root, "Please log in to access this feature")
@@ -216,7 +212,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment,
                 R.id.searchFragment,
                 R.id.bookmarksFragment,
-                R.id.calenderFragment
+                R.id.calenderFragment,
+                R.id.mealDetailsFragment,
             ), // Add your top-level destinations here
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -229,23 +226,13 @@ class MainActivity : AppCompatActivity() {
                 clearFocus()
             }
             val isGuest = viewModel.getCurrentUser() == null || viewModel.isUserGuest()
-            if (isGuest && (destination.id == R.id.bookmarksFragment || destination.id == R.id.calenderFragment)) {
-                navController.popBackStack() // Prevent navigation
-                showLoginDialog(this) {
-                    val intent = Intent(this, AuthActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-                binding.bottomNavigationView.post {
-                    binding.bottomNavigationView.selectedItemId = R.id.homeFragment
-                }
-                return@addOnDestinationChangedListener
-
-            }
-
             when (destination.id) {
                 R.id.mealDetailsFragment -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(false) //show back button
+                    if(isGuest){
+                        handleGuestPermission()
+                        return@addOnDestinationChangedListener
+                    }
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true) //show back button
                     binding.bottomNavigationView.visibility = View.GONE
                     binding.toolbar.toolbar.visibility = View.GONE
                 }
@@ -258,15 +245,21 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.calenderFragment -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(false) //show back button
-                    binding.toolbar.searchAutoCompleteTextView.visibility = View.GONE
-                    binding.toolbar.toolbar.visibility = View.GONE
+                    if (isGuest) {
+                        handleGuestPermission()
+                        return@addOnDestinationChangedListener
+                    } else {
+                        hideToolBar()
+                    }
                 }
 
                 R.id.bookmarksFragment -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(false) //show back button
-                    binding.toolbar.searchAutoCompleteTextView.visibility = View.GONE
-                    binding.toolbar.toolbar.visibility = View.GONE
+                    if (isGuest) {
+                        handleGuestPermission()
+                        return@addOnDestinationChangedListener
+                    } else {
+                        hideToolBar()
+                    }
                 }
 
                 else -> {
@@ -278,6 +271,23 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+        }
+    }
+    private fun hideToolBar(){
+        supportActionBar?.setDisplayHomeAsUpEnabled(false) //show back button
+        binding.toolbar.searchAutoCompleteTextView.visibility = View.GONE
+        binding.toolbar.toolbar.visibility = View.GONE
+
+    }
+    private fun handleGuestPermission(){
+        showLoginDialog(this) {
+            val intent = Intent(this, AuthActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        navController.popBackStack()
+        binding.bottomNavigationView.post {
+            binding.bottomNavigationView.menu.findItem(R.id.homeFragment).setChecked(true)
         }
     }
 

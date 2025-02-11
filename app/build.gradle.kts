@@ -62,7 +62,6 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
     // Glide and coil for image loading
-    implementation(libs.glide)
     implementation(libs.coil)
     // Room for database
     implementation(libs.googleid)
@@ -73,8 +72,6 @@ dependencies {
     // Views/Fragments integration
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
-    // Shimmer for loading animations
-    implementation(libs.shimmer)
     // Lottie for animations
     implementation(libs.lottie)
     // Koin dependencies for Android

@@ -18,14 +18,15 @@ class IngredientAdapter(private val onIngredientClick: (String) -> Unit) :
 
         fun bind(ingredient: Ingredient) {
             binding.apply {
-                progressBar.visibility = View.VISIBLE
                 subName.text = ingredient.strIngredient
                 val params = categoryCard.layoutParams as ViewGroup.MarginLayoutParams
                 params.setMargins(25, 25, 25, 25)
                 categoryCard.layoutParams = params
-                val ingredientUrl = "https://www.themealdb.com/images/ingredients/${ingredient.strIngredient}.png"
-                image.load(ingredientUrl){
+                val ingredientUrl =
+                    "https://www.themealdb.com/images/ingredients/${ingredient.strIngredient}.png"
+                image.load(ingredientUrl) {
                     listener(
+                        onStart = { progressBar.visibility = View.VISIBLE },
                         onSuccess = { _, _ -> progressBar.visibility = View.GONE },
                         onError = { _, _ -> progressBar.visibility = View.GONE }
                     )

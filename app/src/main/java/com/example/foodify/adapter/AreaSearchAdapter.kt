@@ -1,4 +1,5 @@
 package com.example.foodify.adapter
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,19 +19,19 @@ class AreaSearchAdapter(private val onCategoryClick: (String) -> Unit) :
 
         fun bind(area: Area) {
             binding.apply {
-                progressBar.visibility = View.VISIBLE
                 subName.text = area.strArea
                 val params = categoryCard.layoutParams as ViewGroup.MarginLayoutParams
                 params.setMargins(25, 25, 25, 25)
                 categoryCard.layoutParams = params
                 val countryCode = countryCodeMap[area.strArea] ?: "unknown"
                 val flagUrl = if (countryCode == "unknown") {
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Unknown_flag_-_European_version.png/640px-Unknown_flag_-_European_version.png"
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Unknown_flag_-_European_version.png/640px-Unknown_flag_-_European_version.png"
                 } else {
                     "https://flagcdn.com/w320/$countryCode.png"
                 }
-                image.load(flagUrl){
+                image.load(flagUrl) {
                     listener(
+                        onStart = { progressBar.visibility = View.VISIBLE },
                         onSuccess = { _, _ -> progressBar.visibility = View.GONE },
                         onError = { _, _ -> progressBar.visibility = View.GONE }
                     )
