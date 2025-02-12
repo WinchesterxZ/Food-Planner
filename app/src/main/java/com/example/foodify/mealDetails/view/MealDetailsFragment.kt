@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.pedant.SweetAlert.SweetAlertDialog
 import coil.load
@@ -56,6 +57,7 @@ class MealDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getMealDetails(args.mealId,userId)
         binding.ingredientRecyclerview.layoutManager = LinearLayoutManager(requireContext())
+        binding.instructionsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         pDialog = showProgressDialog(requireContext())
         observeMealState()
         binding.navBack.setOnClickListener{
@@ -117,9 +119,9 @@ class MealDetailsFragment : Fragment() {
         }
     }
     private fun handleCalenderClick(meal: MealDetails) {
-        binding.calenderIcon.setImageResource(if(meal.mealPlan.isNullOrEmpty()) R.drawable.calender else R.drawable.calender_fill)
+        binding.calenderIcon.setImageResource(if(meal.mealPlan.isEmpty()) R.drawable.calender else R.drawable.calender_fill)
         binding.calenderIcon.setOnClickListener {
-               if (meal.mealPlan.isNullOrEmpty()){
+               if (meal.mealPlan.isEmpty()){
                    val datePicker = MaterialDatePicker.Builder.datePicker().build()
                    datePicker.show(parentFragmentManager, "MaterialDatePicker")
                    datePicker.addOnPositiveButtonClickListener { selection ->
@@ -194,7 +196,7 @@ class MealDetailsFragment : Fragment() {
                 meal.youtube?.let { url ->
                     val videoId = extractYouTubeVideoId(url)
                     if (videoId != null) {
-                        youTubePlayer.loadVideo(videoId, 0F)
+                        youTubePlayer.cueVideo(videoId, 0F)
                     } else {
                         Log.e("YouTubePlayer", "Invalid YouTube URL: $url")
                     }

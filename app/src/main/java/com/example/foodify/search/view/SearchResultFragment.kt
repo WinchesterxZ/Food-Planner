@@ -22,6 +22,7 @@ import com.example.foodify.data.model.MealPreview
 import com.example.foodify.databinding.FragmentSearchResultBinding
 import com.example.foodify.home.view.MealState
 import com.example.foodify.adapter.listeners.OnItemClickListener
+import com.example.foodify.di.authModule
 import com.example.foodify.search.viewmodel.SearchResultViewModel
 import com.example.foodify.util.showErrorSnackBar
 import com.example.foodify.util.showLoginDialog
@@ -101,7 +102,6 @@ class SearchResultFragment : Fragment(), OnItemClickListener {
 
     private fun observeMealState() {
         viewModel.mealState.observe(viewLifecycleOwner){state->
-                Log.d("a3a3a3a3", "observeHomeData: $state")
                 when (state) {
                     is MealState.Loading -> showLoading()
                     is MealState.Success -> {
@@ -117,11 +117,16 @@ class SearchResultFragment : Fragment(), OnItemClickListener {
     private fun loadMeals(meals: List<MealPreview>) {
         pDialog.dismiss()
         if(meals.isEmpty()){
+            if(searchType == "name"){
+                searchAutoCompleteTextView.visibility = View.GONE
+            }
             binding.noData.visibility = View.VISIBLE
+            binding.noDataText.visibility = View.VISIBLE
             binding.recyclerView.visibility = View.GONE
         }else{
             binding.noData.visibility = View.GONE
             binding.recyclerView.visibility = View.VISIBLE
+            binding.noDataText.visibility = View.GONE
         }
         mealsAdapter.submitList(meals)
     }
@@ -149,7 +154,6 @@ class SearchResultFragment : Fragment(), OnItemClickListener {
             )
 
             MealState.ErrorType.DeleteError -> showErrorSnackBar(requireView(), state.message)
-            else->Unit
         }
     }
 

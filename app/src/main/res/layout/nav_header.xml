@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="16dp"
-    android:background="@color/main">
+    android:padding="16dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/userImageCard"

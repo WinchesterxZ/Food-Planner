@@ -20,9 +20,6 @@ class AreaSearchAdapter(private val onCategoryClick: (String) -> Unit) :
         fun bind(area: Area) {
             binding.apply {
                 subName.text = area.strArea
-                val params = categoryCard.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(25, 25, 25, 25)
-                categoryCard.layoutParams = params
                 val countryCode = countryCodeMap[area.strArea] ?: "unknown"
                 val flagUrl = if (countryCode == "unknown") {
                     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Unknown_flag_-_European_version.png/640px-Unknown_flag_-_European_version.png"

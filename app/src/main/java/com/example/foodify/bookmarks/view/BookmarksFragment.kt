@@ -89,7 +89,6 @@ class BookmarksFragment : Fragment(), OnItemClickListener {
                 }
                 is SyncState.Error -> {
                     pDialog.dismiss()
-                    Log.d("aloo", "observeSyncAndBackUpState: ${state.message}")
                     showErrorSnackBar(binding.root, state.message)
                 }
                 is SyncState.NoChange -> {
@@ -109,7 +108,6 @@ class BookmarksFragment : Fragment(), OnItemClickListener {
 
     private fun observeBookmarks() {
         viewModel.mealState.observe(viewLifecycleOwner) { state ->
-            Log.d("a3a3a3a3", "Fav: $state")
             when (state) {
                 is MealState.Loading -> showLoading()
                 is MealState.Success -> {

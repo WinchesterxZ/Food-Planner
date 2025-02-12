@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.foodify.data.model.IngredientItem
-import com.example.foodify.databinding.SearchItemBinding
+import com.example.foodify.databinding.IngredientsItemBinding
 
 class IngredientsAdapter() :
     ListAdapter<IngredientItem, IngredientsAdapter.IngredientViewHolder>(IngredientDiffCallback()) {
 
-    inner class IngredientViewHolder(val binding: SearchItemBinding) :
+    inner class IngredientViewHolder(val binding: IngredientsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(ingredient: IngredientItem) {
@@ -34,7 +34,7 @@ class IngredientsAdapter() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
-        val binding = SearchItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = IngredientsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return IngredientViewHolder(binding)
     }
 

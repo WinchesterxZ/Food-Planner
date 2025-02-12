@@ -66,7 +66,6 @@ dependencies {
     // Room for database
     implementation(libs.googleid)
     implementation(libs.androidx.room.runtime)
-
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     // Views/Fragments integration

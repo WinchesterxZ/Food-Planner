@@ -19,9 +19,6 @@ class IngredientAdapter(private val onIngredientClick: (String) -> Unit) :
         fun bind(ingredient: Ingredient) {
             binding.apply {
                 subName.text = ingredient.strIngredient
-                val params = categoryCard.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(25, 25, 25, 25)
-                categoryCard.layoutParams = params
                 val ingredientUrl =
                     "https://www.themealdb.com/images/ingredients/${ingredient.strIngredient}.png"
                 image.load(ingredientUrl) {

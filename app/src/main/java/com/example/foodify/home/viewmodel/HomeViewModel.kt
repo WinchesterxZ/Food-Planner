@@ -26,8 +26,8 @@ class HomeViewModel(
             _mealState.postValue(MealState.Loading)
 
             try {
-                val planMealsDeferred = async { safeCall { mealRepository.getAllMealsWithDate(userId?:"") } }
-                val favMealsDeferred = async { safeCall { mealRepository.getFavMealsByUserId(userId ?: "") } }
+                val planMealsDeferred = async { safeCall { mealRepository.getAllMealsWithDate(userId) } }
+                val favMealsDeferred = async { safeCall { mealRepository.getFavMealsByUserId(userId ) } }
                 val mealsDeferred = async { safeCall { mealRepository.getMealsByArea("Egyptian") } }
                 val randomMealDeferred = async { safeCall { mealRepository.getRandomMeal() } }
                 val categoriesDeferred = async { safeCall { mealRepository.getMealsCategory() } }

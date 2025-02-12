@@ -1,5 +1,6 @@
 package com.example.foodify.calender.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,35 +27,42 @@ class CalenderViewModel(
 
 
     fun syncCalendarMeals(userId: String) {
+        Log.d("CalenderViewModel", "Sync started") // Add this to track execution
         _syncState.value = SyncState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val remoteMeals = firestoreRepository.syncCalendarMeals(userId)
-                if(remoteMeals.isEmpty()){
-                    withContext(Dispatchers.Main){
-                        _syncState.value = SyncState.NoBackup("You Don`t Have Any Backup")
+                Log.d("CalenderViewModel", "Remote meals fetched: $remoteMeals")
+
+                if (remoteMeals.isEmpty()) {
+                    withContext(Dispatchers.Main) {
+                        _syncState.value = SyncState.NoBackup("You don't have any backup.")
                     }
                     return@launch
-
                 }
+
                 val localMeals = mealRepository.getAllMealsWithDate(userId)
+                Log.d("CalenderViewModel", "Local meals fetched: $localMeals")
+
                 if (localMeals.containsAll(remoteMeals)) {
-                    withContext(Dispatchers.Main){
+                    withContext(Dispatchers.Main) {
                         _syncState.value = SyncState.NoChange("Calendar is already up to date!")
                     }
                     return@launch
                 }
                 mealRepository.insertMeals(remoteMeals)
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     _syncState.value = SyncState.Success("Calendar synced successfully!")
                 }
 
             } catch (e: Exception) {
-                withContext(Dispatchers.Main){
+                Log.e("CalenderViewModel", "Sync failed: ${e.message}", e)
+                withContext(Dispatchers.Main) {
                     _syncState.value = SyncState.Error("Failed to sync calendar: ${e.message}")
                 }
             }
         }
+
     }
 
     fun backupCalendarMeals(userId: String) {
@@ -89,6 +97,7 @@ class CalenderViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val meals = mealRepository.getMealsByUserIdAndDate(day, userId)
+                Log.d("CalenderViewModel", "Meals fetched: $meals")
                 withContext(Dispatchers.Main) {
                     _mealState.value = MealPlanState.Success(meals)
                 }

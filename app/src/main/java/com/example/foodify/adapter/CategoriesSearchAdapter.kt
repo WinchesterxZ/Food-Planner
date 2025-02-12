@@ -19,9 +19,6 @@ class CategoriesSearchAdapter(private val onCategoryClick: (String) -> Unit) :
         fun bind(category: Category) {
             binding.apply {
                 subName.text = category.strCategory
-                val params = categoryCard.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(25, 25, 25, 25)
-                categoryCard.layoutParams = params
                 image.load(category.strCategoryThumb){
                     listener(
                         onStart = { progressBar.visibility = View.VISIBLE },

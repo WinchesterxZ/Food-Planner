@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.foodify.adapter.AreaSearchAdapter
@@ -48,7 +49,7 @@ class SearchFragment : Fragment() {
         pDialog = showProgressDialog(requireContext())
         val activityBinding = (requireActivity() as MainActivity).binding
         searchAutoCompleteTextView = activityBinding.toolbar.searchAutoCompleteTextView
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
         viewModel.getMealsCategories() // initially load categories
         observeSearchState()
         updateChipsItems()

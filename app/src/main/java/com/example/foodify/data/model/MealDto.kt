@@ -27,7 +27,7 @@ data class MealDto(
     val strMeasure19: String?, val strMeasure20: String?,
     val isFavorite: Boolean,
     val userId: String?,
-    val mealPlan: String?
+    val mealPlan: String
 ) {
     // Mapping to MealPreview (Home & Bookmarks)
     fun toMealPreview() = MealPreview(
@@ -36,7 +36,7 @@ data class MealDto(
         strMealThumb = strMealThumb,
         isFav = isFavorite,
         userId = userId,
-        mealPlan = mealPlan
+        mealPlan = mealPlan ?: ""
     )
 
     // Mapping to MealDetails (Details Screen)
@@ -57,6 +57,6 @@ data class MealDto(
         },
         isFav = isFavorite, // Pass the isFav value
         userId = userId,
-        mealPlan = mealPlan
+        mealPlan = mealPlan ?:""
     )
 }

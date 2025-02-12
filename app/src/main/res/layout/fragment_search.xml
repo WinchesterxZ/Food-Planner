@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".search.view.SearchFragment">
 
-
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"
         android:layout_width="wrap_content"
@@ -29,7 +28,7 @@
             android:text="@string/category"
             android:textAlignment="center"
             android:textColor="@color/white"
-            app:chipBackgroundColor="@color/black"
+            app:chipBackgroundColor="@color/md_theme_primaryContainer_highContrast"
             android:checked="true"
             android:textSize="18sp"
             app:closeIconSize="24dp"
@@ -43,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/area"
-            app:chipBackgroundColor="@color/black"
+            app:chipBackgroundColor="@color/md_theme_primaryContainer_highContrast"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -54,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ingredients"
-            app:chipBackgroundColor="@color/black"
+            app:chipBackgroundColor="@color/md_theme_primaryContainer_highContrast"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -68,7 +67,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chipGroup"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="16dp"
         tools:listitem="@layout/search_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

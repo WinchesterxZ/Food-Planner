@@ -13,10 +13,10 @@ data class MealPreview(
     @get:PropertyName("isFav") @set:PropertyName("isFav")
     var isFav: Boolean,
     var  userId: String?,
-    var mealPlan:String?
+    var mealPlan: String
 ) {
     // Firestore needs this for deserialization
-    constructor() : this("", "", "", false, null, null)
+    constructor() : this("", "", "", false, null, "")
     companion object {
         val EMPTY =MealPreview(
             idMeal = "",
@@ -24,7 +24,7 @@ data class MealPreview(
             strMealThumb = "",
             isFav = false,
             userId = null,
-            mealPlan = null
+            mealPlan = ""
         )
     }
 }

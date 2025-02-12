@@ -1,6 +1,7 @@
 package com.example.foodify.calender.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import java.util.Calendar
 import java.util.Locale
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.log
 
 class CalenderFragment : Fragment(), OnItemClickListener {
     private lateinit var _binding: FragmentCalenderBinding
@@ -74,7 +76,6 @@ class CalenderFragment : Fragment(), OnItemClickListener {
             binding.backup.setOnClickListener {
                 viewModel.backupCalendarMeals(userId)
             }
-
             observeSyncAndBackUpState()
         }else{
             binding.sync.setOnClickListener {
@@ -119,6 +120,7 @@ class CalenderFragment : Fragment(), OnItemClickListener {
 
     private fun observeMealState() {
         viewModel.mealState.observe(viewLifecycleOwner) { state ->
+            Log.d("aaaa", "observeMealState: $state")
             when (state) {
                 is MealPlanState.Error -> showError(state)
                 is MealPlanState.Loading -> pDialog.show()
@@ -131,6 +133,7 @@ class CalenderFragment : Fragment(), OnItemClickListener {
 
     private fun showMealDetails(meals: List<MealPreview>) {
         pDialog.dismiss()
+        Log.d("aaaa", "showMealDetails: $meals")
         if(meals.isEmpty()){
             binding.backup.visibility= View.GONE
         }else{

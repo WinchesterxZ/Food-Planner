@@ -14,7 +14,7 @@ data class MealDetails(
     val ingredients: List<IngredientItem>,
     var isFav: Boolean,
     var userId: String?,
-    var mealPlan:String?
+    var mealPlan:String
 
 
 
@@ -32,7 +32,7 @@ data class MealDetails(
             ingredients = emptyList(),
             isFav = false,
             userId = null,
-            mealPlan = null
+            mealPlan = ""
 
         )
     }

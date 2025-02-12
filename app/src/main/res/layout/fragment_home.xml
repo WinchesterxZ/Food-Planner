@@ -7,15 +7,13 @@
     tools:context=".home.view.HomeFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/main">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/randomMealLayout"
             layout="@layout/meal_item"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
             android:id="@+id/categoriesText"
             android:layout_width="wrap_content"

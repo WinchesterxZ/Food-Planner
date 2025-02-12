@@ -111,7 +111,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/blue"
             android:elevation="4dp"
             android:focusable="true"
             android:gravity="center"
@@ -164,7 +163,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/blue"
             android:elevation="4dp"
             android:focusable="true"
             android:gravity="center"
@@ -181,14 +179,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/black"
             android:elevation="4dp"
             android:focusable="true"
             android:gravity="center"
             android:paddingVertical="12dp"
             android:text="@string/continue_with_google"
             android:textAllCaps="true"
-            android:textColor="@color/white"
             app:cornerRadius="8dp"
             app:icon="@drawable/google"
             app:iconGravity="textStart"
@@ -223,7 +219,6 @@
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="@string/sign_up"
-                android:textColor="@color/blue"
                 android:textSize="14sp" />
 
         </LinearLayout>

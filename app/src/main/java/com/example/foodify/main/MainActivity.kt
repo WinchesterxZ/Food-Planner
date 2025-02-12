@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var networkUtils: NetworkUtils
+    private var connectAfterDisconnection = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -46,14 +47,16 @@ class MainActivity : AppCompatActivity() {
         showSuccessLogin()
         setupToolbar()
         setUpNavController()
+        observeNetworkState()
+        checkInitialNetworkState()
         handleBackButtonForNonTopLevel()
         setupBottomAndDrawerNav()
         setupAppBarConfiguration()
         loadUserData()
-        handleLogout()
+        handleOnItemClickListener()
+        handleOnNavigationItemListener()
         handleSearch()
-        checkInitialNetworkState()
-        observeNetworkState()
+
     }
 
     private fun handleSearch() {
@@ -80,84 +83,85 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleNetworkState(connected: Boolean) {
-
+    private fun handleOnItemClickListener() {
+        val isGuest = viewModel.getCurrentUser() == null || viewModel.isUserGuest()
         val allowedFragments = setOf(R.id.bookmarksFragment, R.id.calenderFragment)
-        val currentFragmentId = navController.currentDestination?.id
-
-        if (!connected) {
-            binding.toolbar.toolbar.visibility = View.GONE
-
-            if (currentFragmentId !in allowedFragments) {
-                binding.navHostFragment.visibility = View.GONE
-                showNoInternetDialog()
-            }
-
-            // Restrict navigation to only the allowed fragments
-            binding.bottomNavigationView.setOnItemSelectedListener { item ->
-                if (item.itemId in allowedFragments) {
-                    binding.navHostFragment.visibility = View.VISIBLE
-                    binding.toolbar.toolbar.visibility = View.GONE
-                    navController.navigate(item.itemId)
-                    true
-                } else {
-                    showNoInternetDialog()
-                    false
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            if (item.itemId in allowedFragments) {
+                if (isGuest) {
+                    handleGuestPermission()
+                    return@setOnItemSelectedListener false
                 }
-            }
-
-        } else {
-            binding.navHostFragment.visibility = View.VISIBLE
-            binding.toolbar.toolbar.visibility = View.VISIBLE
-            binding.bottomNavigationView.visibility = View.VISIBLE
-
-            // Restore normal navigation behavior
-            binding.bottomNavigationView.setOnItemSelectedListener { item ->
+                navController.navigate(item.itemId)
+                true
+            } else {
                 navController.navigate(item.itemId)
                 true
             }
         }
     }
 
+    private fun handleNetworkState(connected: Boolean) {
+        val isGuest = viewModel.getCurrentUser() == null || viewModel.isUserGuest()
 
-    private fun showNoInternetDialog() {
-        val alertDialog = SweetAlertDialog(this@MainActivity, SweetAlertDialog.ERROR_TYPE)
-        alertDialog.setTitleText("No Internet Connection")
-        alertDialog.setContentText("Please try again.")
-        alertDialog.setConfirmText("OK")
-        alertDialog.setCancelText("Cancel")
-        alertDialog.setConfirmClickListener { dialog ->
-            if (networkUtils.hasNetworkConnection()) {
-                binding.navHostFragment.visibility = View.VISIBLE
-                binding.toolbar.toolbar.visibility = View.VISIBLE
-                dialog.dismiss()
+        if (!connected) {
+            connectAfterDisconnection = true
+            showErrorSnackBar(binding.root, "Please check your internet connection")
+            if (isGuest) {
+                binding.navHostFragment.visibility = View.GONE
+                binding.toolbar.toolbar.visibility = View.GONE
+                binding.noInternetText.visibility = View.VISIBLE
+                binding.noInternetImage.visibility = View.VISIBLE
+                binding.bottomNavigationView.visibility = View.GONE
             } else {
-                observeNetworkState()
+                binding.navHostFragment.visibility = View.GONE
+                binding.toolbar.toolbar.visibility = View.GONE
+                binding.noInternetText.visibility = View.VISIBLE
+                binding.noInternetImage.visibility = View.VISIBLE
+                binding.bottomNavigationView.visibility = View.VISIBLE
+                binding.bottomNavigationView.setOnItemSelectedListener { item ->
+                    if (item.itemId !in setOf(R.id.bookmarksFragment, R.id.calenderFragment)) {
+                        showErrorSnackBar(binding.root, "Please check your internet connection")
+                        return@setOnItemSelectedListener false
+                    }
+                    binding.navHostFragment.visibility = View.VISIBLE
+                    binding.toolbar.toolbar.visibility = View.GONE
+                    binding.noInternetText.visibility = View.GONE
+                    binding.noInternetImage.visibility = View.GONE
+                    navController.navigate(item.itemId)
+                    true
+                }
             }
-        }
-        alertDialog.setCancelClickListener {
-            alertDialog.dismiss()
-        }
-        alertDialog.show()
-        alertDialog.findViewById<Button>(cn.pedant.SweetAlert.R.id.confirm_button)?.apply {
-            backgroundTintList = null // Remove default Material background tint
-            setPadding(0, 5, 0, 5)
-            setTypeface(typeface, Typeface.BOLD) // Make text bold
-            setBackgroundResource(R.drawable.custom_button_background) // Apply custo
-        }
-        alertDialog.findViewById<Button>(cn.pedant.SweetAlert.R.id.cancel_button)?.apply {
-            backgroundTintList = null // Remove default Material background tint
-            setPadding(0, 5, 0, 5)
-            setTypeface(typeface, Typeface.BOLD) // Make text bold
-            setBackgroundResource(R.drawable.custom_button_error) // Apply custo
+        } else {
+            Log.d("zzzzz", "handleNetworkState: $connectAfterDisconnection")
+            if(connectAfterDisconnection) {
+                showSuccessSnackBar(binding.root, "Connection Restored")
+                connectAfterDisconnection = false
+            }
+            val currentDestinationId = navController.currentDestination?.id
+            binding.noInternetText.visibility = View.GONE
+            binding.noInternetImage.visibility = View.GONE
+            binding.navHostFragment.visibility = View.VISIBLE
+            if (currentDestinationId != null && currentDestinationId in setOf(
+                    R.id.bookmarksFragment,
+                    R.id.calenderFragment,
+                    R.id.mealDetailsFragment
+                )
+            )
+                binding.toolbar.toolbar.visibility = View.GONE
+            else
+                binding.toolbar.toolbar.visibility = View.VISIBLE
+
+            binding.bottomNavigationView.visibility = View.VISIBLE
+            handleOnItemClickListener()
+
         }
     }
 
 
-    private fun handleLogout() {
-
+    private fun handleOnNavigationItemListener() {
+        val isGuest = viewModel.getCurrentUser() == null || viewModel.isUserGuest()
         binding.navigationView.setNavigationItemSelectedListener { item ->
-            val isGuest = viewModel.getCurrentUser() == null || viewModel.isUserGuest()
             if (isGuest && (item.itemId == R.id.bookmarksFragment || item.itemId == R.id.calenderFragment)) {
                 showErrorSnackBar(binding.root, "Please log in to access this feature")
                 false
@@ -186,9 +190,9 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun loadUserData() {
         binding.toolbar.userImage.load(viewModel.getCurrentUser()?.photoUrl) {
-            placeholder(R.drawable.profile) // Show while loading
-            error(R.drawable.profile) // Show if URL is null or fails
-            fallback(R.drawable.profile) // Show if URL is explicitly null
+            placeholder(R.drawable.person) // Show while loading
+            error(R.drawable.person) // Show if URL is null or fails
+            fallback(R.drawable.person) // Show if URL is explicitly null
         }
         val headerView = binding.navigationView.getHeaderView(0)
         val userImage = headerView.findViewById<ImageView>(R.id.userHeaderImage)
@@ -199,9 +203,9 @@ class MainActivity : AppCompatActivity() {
             userName.text = viewModel.getCurrentUser()?.displayName
         }
         userImage.load(viewModel.getCurrentUser()?.photoUrl) {
-            placeholder(R.drawable.profile) // Show while loading
-            error(R.drawable.profile) // Show if URL is null or fails
-            fallback(R.drawable.profile) // Show if URL is explicitly null
+            placeholder(R.drawable.person) // Show while loading
+            error(R.drawable.person) // Show if URL is null or fails
+            fallback(R.drawable.person) // Show if URL is explicitly null
         }
 
     }
@@ -220,16 +224,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleBackButtonForNonTopLevel() {
+        val isGuest = viewModel.getCurrentUser() == null || viewModel.isUserGuest()
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbar.searchAutoCompleteTextView.apply {
                 text.clear()
                 clearFocus()
             }
-            val isGuest = viewModel.getCurrentUser() == null || viewModel.isUserGuest()
             when (destination.id) {
                 R.id.mealDetailsFragment -> {
-                    if(isGuest){
+                    if (isGuest) {
                         handleGuestPermission()
+                        navController.popBackStack()
+                        /* binding.bottomNavigationView.post {
+                             binding.bottomNavigationView.menu.findItem(R.id.homeFragment)
+                                 .setChecked(true)
+                         }*/
                         return@addOnDestinationChangedListener
                     }
                     supportActionBar?.setDisplayHomeAsUpEnabled(true) //show back button
@@ -244,22 +253,12 @@ class MainActivity : AppCompatActivity() {
                     binding.toolbar.toolbar.visibility = View.VISIBLE
                 }
 
-                R.id.calenderFragment -> {
-                    if (isGuest) {
-                        handleGuestPermission()
-                        return@addOnDestinationChangedListener
-                    } else {
-                        hideToolBar()
-                    }
+                R.id.bookmarksFragment -> {
+                    binding.toolbar.toolbar.visibility = View.GONE
                 }
 
-                R.id.bookmarksFragment -> {
-                    if (isGuest) {
-                        handleGuestPermission()
-                        return@addOnDestinationChangedListener
-                    } else {
-                        hideToolBar()
-                    }
+                R.id.calenderFragment -> {
+                    binding.toolbar.toolbar.visibility = View.GONE
                 }
 
                 else -> {
@@ -273,22 +272,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun hideToolBar(){
+
+    private fun hideToolBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false) //show back button
         binding.toolbar.searchAutoCompleteTextView.visibility = View.GONE
         binding.toolbar.toolbar.visibility = View.GONE
 
     }
-    private fun handleGuestPermission(){
+
+    private fun handleGuestPermission() {
         showLoginDialog(this) {
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             finish()
         }
-        navController.popBackStack()
-        binding.bottomNavigationView.post {
-            binding.bottomNavigationView.menu.findItem(R.id.homeFragment).setChecked(true)
-        }
+
     }
 
     private fun setUpNavController() {

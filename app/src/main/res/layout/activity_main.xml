@@ -13,15 +13,39 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/main">
+        android:layout_height="match_parent">
         <include
             android:id="@+id/toolbar"
             layout="@layout/custom_toolbar"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/noInternetImage"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:src="@drawable/no_internet"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3"/>
 
+        <TextView
+            android:id="@+id/noInternetText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Internet"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noInternetImage"
+            app:layout_constraintVertical_bias="0.1"
+            android:visibility="gone">
 
+        </TextView>
         <!-- Fragment Container -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"
